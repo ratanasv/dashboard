@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<style>
+	.chart rect {
+		fill: steelblue;
+	}
+	.chart text {
+		fill: black;
+		font: 14px sans-serif;
+
+	}
+	</style>
+	<script src='http://code.jquery.com/jquery-1.8.2.min.js'></script>
+	<script src='http://d3js.org/d3.v3.min.js'></script>
+	<script>
+	function initD3() {
+		var data = [4, 8, 15, 16, 8, 42, 40, 2, 10, 17];
+		var w = 500;
+		var h = 100;
+		var barWidth = 20;
+
+
+		var chart = d3.select('.chart')
+			.attr('width', w)
+			.attr('height', h);
+
+		var bar = chart.selectAll('g')
+			.data(data)
+			.enter();
+
+		bar.append('rect')
+			.attr('x', function(d, i) {
+				return barWidth*1.5*i;
+			})
+			.attr('y', function(d, i) {
+				return h-(d*2.0);
+			})
+			.attr('width', barWidth)
+			.attr('height', function(d) {
+				return d*2.0;
+			});
+
+		bar.append('text')
+			.attr('x', function(d,i) {
+				return barWidth*i*1.5;
+			})
+			.attr('y', function(d,i) {
+				return h-(d*2.0);
+			})
+			.text(function(d) {
+				return d;
+			});
+	}
+
+	</script>
+</head>
+<body onload="initD3()">
+<h1> test test </h1>
+<svg class='chart'></svg>
+</body>
+</html>
