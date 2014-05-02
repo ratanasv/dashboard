@@ -1,15 +1,17 @@
 <!DOCTYPE html>
-<html>
+<html ng-app>
 <head>
 	<style>
 	#chart .area {
 		fill: steelblue;
 	}
 	</style>
-	<script src='http://code.jquery.com/jquery-1.8.2.min.js'></script>
-	<script src='http://d3js.org/d3.v3.min.js'></script>
+	<script src='./bower_components/angular/angular.js'></script>
+	<script src='./bower_components/underscore/underscore.js'></script>
+	<script src='./bower_components/d3/d3.js' charset='utf-8'></script>
 	<script>
 	var data = [4, 8, 15, 16, 8, 42, 40, 2, 10, 17, 4, 8, 15, 16, 8, 42, 40, 2, 10, 17, 4, 8, 15, 16, 8, 42, 40, 2, 10, 17, 4, 8, 15, 16, 8, 42, 40, 2, 10, 17, 4, 8, 15, 16, 8, 42, 40, 2, 10, 17, 4, 8, 15, 16, 8, 42, 40, 2, 10, 17, 4, 8, 15, 16, 8, 42, 40, 2, 10, 17, 4, 8, 15, 16, 8, 42, 40, 2, 10, 17, 4, 8, 15, 16, 8, 42, 40, 2, 10, 17, 4, 8, 15, 16, 8, 42, 40, 2, 10, 17, 4, 8, 15, 16, 8, 42, 40, 2, 10, 17, 4, 8, 15, 16, 8, 42, 40, 2, 10, 17, 4, 8, 15, 16, 8, 42, 40, 2, 10, 17];
+
 	function areaChart(config) {
 		var width = 700;
 		var height = 200;
@@ -21,13 +23,22 @@
 
 			var area;
 
+			var dataYMax = Math.max.apply(null, data);
+			var dataYMin = Math.min.apply(null, data);
+
+			if (dataYMin > 0) {
+				dataYMin = 0;
+			}
+
+			var y = d3.scale.linear().domain([dataYMin, dataYMax]).range([height, 0]);
+
 			area = d3.svg.area()
 				.x(function(d, i) {
 					return i*width/data.length;
 				})
 				.y0(height)
 				.y1(function(d, i) {
-					return height-d;
+					return y(d);
 				});
 
 			chart.append('path')
@@ -61,10 +72,17 @@
 		myAreaChart();
 	}
 
+	function SliderCtrl($scope) {
+		$scope.height = 200;
+	}
+
 	</script>
 </head>
 <body onload="initD3()">
-<h1> test test </h1>
+<div ng-controller='SliderCtrl'>
+<input type="range" name="heightSlider" ng-model='height' value='200' min="20" max="800"><br>
+<span>Height is {{height}}.</span>
+</div>
 <svg id='chart'></svg>
 </body>
 </html>
