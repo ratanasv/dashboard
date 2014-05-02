@@ -13,11 +13,13 @@
 	<script src='./bower_components/angular-ui-router/release/angular-ui-router.js'></script>
 	<script src='./bower_components/underscore/underscore.js'></script>
 	<script src='./bower_components/d3/d3.js' charset='utf-8'></script>
-	<script src='./app/app.js'></script>
-	<script src='./app/areaChart/areaChart.js'></script>
+	<script src='./app.js'></script>
+	<script src='./areaChart/areaChart.js'></script>
+	<script src='./main/main.js'></script>
 </head>
 <body>
-	<div ui-view='main'></div>
 	<a ui-sref='areaChart'>AreaChart</a>
+	<div ui-view='main'></div>
+	
 </body>
 </html>

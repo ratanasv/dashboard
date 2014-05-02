@@ -1,10 +1,11 @@
 angular.module('cs519Assign3', [
 	'ui.router',
-	'cs519Assign3.areaChart'
+	'cs519Assign3.areaChart',
+	'cs519Assign3.main'
 ])
 
 .config(function($stateProvider, $urlRouterProvider) {
-	$urlRouterProvider.otherwise('/home');
+	$urlRouterProvider.otherwise('/main');
 })
 
 .run(function() {
