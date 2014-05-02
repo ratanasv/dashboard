@@ -17,14 +17,27 @@ angular.module('cs519Assign3.areaChart', [
 })
 
 .controller('AreaChartCtrl', function($scope) {
+	$scope.height = 200;
+	$scope.width = 800;
+
+	var config = {
+		data: data,
+		width: $scope.width,
+		height: $scope.height
+	};
+
+	var myAreaChart = areaChart(config);
+	myAreaChart.height(100);
+	myAreaChart();
+
 	function areaChart(config) {
 		var width = 700;
 		var height = 200;
 
 		function my() {
 			var chart = d3.select('#chart')
-			.attr('width', width)
-			.attr('height', height);
+				.attr('width', width)
+				.attr('height', height);
 
 			var area;
 
@@ -47,9 +60,9 @@ angular.module('cs519Assign3.areaChart', [
 			});
 
 			chart.append('path')
-			.datum(config.data)
-			.attr('class', 'area')
-			.attr('d', area);
+				.datum(config.data)
+				.attr('class', 'area')
+				.attr('d', area);
 		}
 
 		my.width = function(value) {
@@ -64,21 +77,13 @@ angular.module('cs519Assign3.areaChart', [
 			return my;
 		}
 
+		if (config.width) {
+			my.width(config.width);
+		}
+		if (config.height) {
+			my.height(config.height);
+		}
+
 		return my;
 	}
-
-	function initD3() {
-		var config = {
-			data: data
-		};
-
-		var myAreaChart = areaChart(config);
-		myAreaChart.height(100);
-		myAreaChart();
-	}
-})
-
-.controller('SliderCtrl', function($scope) {
-	$scope.height = 200;
-	$scope.width = 800;
 });
