@@ -1,7 +1,8 @@
 angular.module('cs519Assign3', [
 	'ui.router',
 	'cs519Assign3.areaChart',
-	'cs519Assign3.main'
+	'cs519Assign3.main',
+	'cs519Assign3.multiLineChart'
 ])
 
 .config(function($stateProvider, $urlRouterProvider) {
