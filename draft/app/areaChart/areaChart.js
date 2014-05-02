@@ -4,7 +4,7 @@ angular.module('cs519Assign3.areaChart', [
 
 ])
 
-.config(function config($stateProvider) {
+.config(function($stateProvider) {
 	$stateProvider.state('areaChart', {
 		url: '/areaChart',
 		views: {
@@ -16,7 +16,7 @@ angular.module('cs519Assign3.areaChart', [
 	})
 })
 
-.controller('AreaChartCtrl', function AreaChartCtrl($scope) {
+.controller('AreaChartCtrl', function($scope) {
 	function areaChart(config) {
 		var width = 700;
 		var height = 200;
@@ -76,9 +76,9 @@ angular.module('cs519Assign3.areaChart', [
 		myAreaChart.height(100);
 		myAreaChart();
 	}
+})
 
-	function SliderCtrl($scope) {
-		$scope.height = 200;
-		$scope.width = 800;
-	}
+.controller('SliderCtrl', function($scope) {
+	$scope.height = 200;
+	$scope.width = 800;
 });
