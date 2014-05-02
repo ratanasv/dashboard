@@ -4,6 +4,9 @@
 	"devDependencies": {
 		"underscore": "~1.6.0",
 		"angular": "~1.2",
-		"d3": "~3.4.6"
+		"d3": "~3.4.6",
+		"bootstrap": "~3.1",
+		"angular-bootstrap": "~0.10.0",
+		"angular-ui-router": "~0.2"
 	}
 }
