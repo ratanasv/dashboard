@@ -9,14 +9,14 @@ angular.module('cs519Assign3.multiLineChart', [
 		url: '/multiLineChart',
 		views: {
 			'main': {
-				controller: 'AreaChartCtrl',
+				controller: 'MultiLineChartCtrl',
 				templateUrl: 'multiLineChart/multiLineChart.html'
 			}
 		}
 	})
 })
 
-.controller('AreaChartCtrl', function($scope) {
+.controller('MultiLineChartCtrl', function($scope) {
 	$scope.height = 200;
 	$scope.width = 800;
 
