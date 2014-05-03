@@ -20,6 +20,15 @@ angular.module('cs519Assign3.multiLineChart', [
 	var config;
 	var myMultiLineChart;
 
+	$scope.heightSlider = {
+		name: 'Height Slider',
+		value: '200'
+	}
+	$scope.widthSlider = {
+		name: 'Width Slider',
+		value: '800'
+	}
+
 	$scope.height = 200;
 	$scope.width = 800;
 
