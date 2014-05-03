@@ -2,15 +2,11 @@ angular.module('cs519Assign3.util', [
 
 ])
 
-.service('reusableChart', function() {
-	return function(config) {
-
+.factory('reusableChart', function reusableChartFactory() {
+	return function(my) {
 		var width = 700;
 		var height = 200;
 
-		function my() {
-
-		}
 
 		my.width = function(value) {
 			if (!value) return width;
@@ -24,13 +20,13 @@ angular.module('cs519Assign3.util', [
 			return my;
 		}
 
-		if (config.width) {
+		/*
+		if (my.config.width) {
 			my.width(config.width);
 		}
-		if (config.height) {
-			my.height(config.height);
+		if (my.config.height) {
+			my.height(my.config.height);
 		}
-
-		return my;
+		*/
 	};
 });
