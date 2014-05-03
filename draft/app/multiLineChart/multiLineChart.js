@@ -16,14 +16,28 @@ angular.module('cs519Assign3.multiLineChart', [
 	})
 })
 
-.controller('MultiLineChartCtrl', ['$scope', 'reusableFactory', function($scope, reusableFactory) {
+.controller('MultiLineChartCtrl', ['$scope', 'multiLineChart', function($scope, multiLineChart) {
+	var config;
+	var myMultiLineChart;
+
 	$scope.height = 200;
 	$scope.width = 800;
 
-	var config = {
+	config = {
 		data: data,
 		width: $scope.width,
 		height: $scope.height
 	};
 
+	/*
+	myMultiLineChart = multiLineChart(config);
+	myMultiLineChart.height(100);
+	myMultiLineChart.render()
+	*/
+}])
+
+.factory('multiLineChart', ['reusableChart', function(reusableChart) {
+	return {
+		yomama: 'isfat'
+	};
 }]);
