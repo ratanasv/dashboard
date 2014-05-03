@@ -19,14 +19,5 @@ angular.module('cs519Assign3.util', [
 			height = value;
 			return my;
 		}
-
-		/*
-		if (my.config.width) {
-			my.width(config.width);
-		}
-		if (my.config.height) {
-			my.height(my.config.height);
-		}
-		*/
 	};
 });

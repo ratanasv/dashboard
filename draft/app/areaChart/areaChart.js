@@ -42,6 +42,13 @@ angular.module('cs519Assign3.areaChart', [
 		var my = {};
 		reusableChart(my);
 
+		if (config.width) {
+			my.width(config.width);
+		}
+		if (config.height) {
+			my.height(config.height);
+		}
+
 		dataYMax = Math.max.apply(null, config.data);
 		dataYMin = Math.min.apply(null, config.data);
 
@@ -67,9 +74,12 @@ angular.module('cs519Assign3.areaChart', [
 					return y(d);
 				});
 
+			d3.select('#areaChartPath').remove();
+
 			chart.append('path')
 				.datum(config.data)
 				.attr('class', 'area')
+				.attr('id', 'areaChartPath')
 				.attr('d', area);
 		}
 		
