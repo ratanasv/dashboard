@@ -1,7 +1,7 @@
 var data = [4, 8, 15, 16, 8, 42, 40, 2, 10, 17, 4, 8, 15, 16, 8, 42, 40, 2, 10, 17, 4, 8, 15, 16, 8, 42, 40, 2, 10, 17, 4, 8, 15, 16, 8, 42, 40, 2, 10, 17, 4, 8, 15, 16, 8, 42, 40, 2, 10, 17, 4, 8, 15, 16, 8, 42, 40, 2, 10, 17, 4, 8, 15, 16, 8, 42, 40, 2, 10, 17, 4, 8, 15, 16, 8, 42, 40, 2, 10, 17, 4, 8, 15, 16, 8, 42, 40, 2, 10, 17, 4, 8, 15, 16, 8, 42, 40, 2, 10, 17, 4, 8, 15, 16, 8, 42, 40, 2, 10, 17, 4, 8, 15, 16, 8, 42, 40, 2, 10, 17, 4, 8, 15, 16, 8, 42, 40, 2, 10, 17];
 
 angular.module('cs519Assign3.multiLineChart', [
-
+	'cs519Assign3.util'
 ])
 
 .config(function($stateProvider) {
@@ -16,7 +16,7 @@ angular.module('cs519Assign3.multiLineChart', [
 	})
 })
 
-.controller('MultiLineChartCtrl', function($scope) {
+.controller('MultiLineChartCtrl', ['$scope', 'reusableFactory', function($scope, reusableFactory) {
 	$scope.height = 200;
 	$scope.width = 800;
 
@@ -26,34 +26,4 @@ angular.module('cs519Assign3.multiLineChart', [
 		height: $scope.height
 	};
 
-
-	function multiLineChart(config) {
-		var width = 700;
-		var height = 200;
-
-		function my() {
-			
-		}
-
-		my.width = function(value) {
-			if (!value) return width;
-			width = value;
-			return my;
-		}
-
-		my.height = function(value) {
-			if (!value) return height;
-			height = value;
-			return my;
-		}
-
-		if (config.width) {
-			my.width(config.width);
-		}
-		if (config.height) {
-			my.height(config.height);
-		}
-
-		return my;
-	}
-});
+}]);
