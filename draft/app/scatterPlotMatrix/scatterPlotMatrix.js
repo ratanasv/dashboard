@@ -115,21 +115,4 @@ angular.module('cs519Assign3.scatterPlotMatrix', [
 		};	
 		return my;
 	}
-}])
-
-.factory('scatterPlot', function() {
-	return function(config) {
-		var selection = config.selection;
-		selection.selectAll('circle')
-			.data(config.data)
-			.enter()
-			.append('circle')
-			.attr('r', 2)
-			.attr('cx', function(d) {
-				return d['0']*config.width;
-			})
-			.attr('cy', function(d) {
-				return (1.0-d['1'])*config.height;
-			});
-	}
-});
+}]);
