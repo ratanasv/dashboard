@@ -1,5 +1,3 @@
-var data = [4, 8, 15, 16, 8, 42, 40, 2, 10, 17, 4, 8, 15, 16, 8, 42, 40, 2, 10, 17, 4, 8, 15, 16, 8, 42, 40, 2, 10, 17, 4, 8, 15, 16, 8, 42, 40, 2, 10, 17, 4, 8, 15, 16, 8, 42, 40, 2, 10, 17, 4, 8, 15, 16, 8, 42, 40, 2, 10, 17, 4, 8, 15, 16, 8, 42, 40, 2, 10, 17, 4, 8, 15, 16, 8, 42, 40, 2, 10, 17, 4, 8, 15, 16, 8, 42, 40, 2, 10, 17, 4, 8, 15, 16, 8, 42, 40, 2, 10, 17, 4, 8, 15, 16, 8, 42, 40, 2, 10, 17, 4, 8, 15, 16, 8, 42, 40, 2, 10, 17, 4, 8, 15, 16, 8, 42, 40, 2, 10, 17];
-
 angular.module('cs519Assign3.areaChart', [
 	'cs519Assign3.util'
 ])
@@ -16,7 +14,7 @@ angular.module('cs519Assign3.areaChart', [
 	})
 })
 
-.controller('AreaChartCtrl', ['$scope', 'areaChart', function($scope, areaChart) {
+.controller('AreaChartCtrl', ['$scope', 'areaChart', 'randomArray', function($scope, areaChart, randomArray) {
 	var config;
 	var myAreaChart;
 
@@ -24,7 +22,7 @@ angular.module('cs519Assign3.areaChart', [
 	$scope.width = 800;
 
 	config = {
-		data: data,
+		data: randomArray(100),
 		width: $scope.width,
 		height: $scope.height
 	};

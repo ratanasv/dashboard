@@ -28,7 +28,7 @@ angular.module('cs519Assign3.multiLineChart', [
 		}
 
 		config = {
-			data: [randomArray(100), randomArray(200), randomArray(300)],
+			data: [randomArray(100), randomArray(100), randomArray(100)],
 			width: $scope.widthSlider.value,
 			height: $scope.heightSlider.value
 		};
@@ -88,7 +88,9 @@ angular.module('cs519Assign3.multiLineChart', [
 				.append('path')
 				.attr('class', 'line')
 				.attr('d', line)
-				.style('stroke', color(1))
+				.style('stroke', function(d, i) {
+					return color(i);
+				})
 				.style('fill', 'none');
 
 		};
