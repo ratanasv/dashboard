@@ -22,6 +22,16 @@ angular.module('cs519Assign3.util', [
 	};
 })
 
+.factory('randomArray', function randomArrayFactory() {
+	return function(length) {
+		var result = [];
+		for (var i=0; i<length; i++) {
+			result.push(Math.random());
+		}
+		return result;
+	}
+})
+
 .directive('sliderWithLabel', function() {
 	return {
 		template: '{{sliderId.name}} <input type="range" ng-model="sliderId.value" min="1" max="1000"> is {{sliderId.value}} px.',
