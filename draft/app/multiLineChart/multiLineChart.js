@@ -15,27 +15,27 @@ angular.module('cs519Assign3.multiLineChart', [
 })
 
 .controller('MultiLineChartCtrl', ['$scope', 'multiLineChart', 'randomArray', function($scope, multiLineChart, randomArray) {
-		var config;
-		var myMultiLineChart;
+	var config;
+	var myMultiLineChart;
 
-		$scope.heightSlider = {
-			name: 'Height Slider',
-			value: '200'
-		}
-		$scope.widthSlider = {
-			name: 'Width Slider',
-			value: '800'
-		}
+	$scope.heightSlider = {
+		name: 'Height Slider',
+		value: '200'
+	}
+	$scope.widthSlider = {
+		name: 'Width Slider',
+		value: '800'
+	}
 
-		config = {
-			data: [randomArray(100), randomArray(100), randomArray(100)],
-			width: $scope.widthSlider.value,
-			height: $scope.heightSlider.value
-		};
+	config = {
+		data: [randomArray(100), randomArray(100), randomArray(100)],
+		width: $scope.widthSlider.value,
+		height: $scope.heightSlider.value
+	};
 
-		
-		myMultiLineChart = multiLineChart(config);
-		myMultiLineChart.render()
+	
+	myMultiLineChart = multiLineChart(config);
+	myMultiLineChart.render()
 }])
 
 
@@ -79,8 +79,6 @@ angular.module('cs519Assign3.multiLineChart', [
 				.y(function(d, i) {
 					return y(d);
 				});
-
-			d3.select('#multiLineChartPath').remove();
 
 			chart.selectAll('path')
 				.data(config.data)
