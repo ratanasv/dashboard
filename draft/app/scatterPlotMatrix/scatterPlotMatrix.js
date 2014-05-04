@@ -47,7 +47,7 @@ angular.module('cs519Assign3.scatterPlotMatrix', [
 
 		var my = {};
 
-		var N = Object.keys(config.data[0]).length;
+		var N = config.data[0].length;
 
 		for (var i=0; i<N; i++) {
 			for (var j=0; j<N; j++) {

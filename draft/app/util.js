@@ -36,9 +36,9 @@ angular.module('cs519Assign3.util', [
 	return function(length, N) {
 		var result = [];
 		for (var i=0; i<length; i++) {
-			result.push({});
+			result.push([]);
 			for (var j=0; j<N; j++) {
-				result[i][j.toString()] = Math.random();
+				result[i].push(Math.random());
 			}
 		}
 		return result;
