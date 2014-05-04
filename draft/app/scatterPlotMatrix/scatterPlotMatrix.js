@@ -49,14 +49,12 @@ angular.module('cs519Assign3.scatterPlotMatrix', [
 
 		var N = config.data[0].length;
 
-		for (var i=0; i<N; i++) {
-			for (var j=0; j<N; j++) {
-				shifts.push({
-					x: j/N*config.width,
-					y: (N-i-1)/N*config.height
-				});
-			}
+		for (var i=0; i<N*N; i++) {
+			var column = i%N;
+			var row = Math.floor(i/N);
+			shifts.push([column/N*config.width, row/N*config.height]);
 		}
+
 		reusableChart(my);
 
 		if (config.width) {
@@ -72,13 +70,48 @@ angular.module('cs519Assign3.scatterPlotMatrix', [
 				.attr('width', my.width())
 				.attr('height', my.height());
 
+
 			chart.selectAll('g')
 				.data(shifts)
 				.enter()
 				.append('g')
 				.attr('transform', function(d, i) {
-					return 'translate(' + d.x + ', ' + d.y + ')';
+					return 'translate(' + d[0] + ', ' + d[1]+ ')';
 				});
+
+			var row = 0;
+			var column = 0;
+
+			var rows = chart.selectAll('g')
+				.selectAll('circle')
+				.data(config.data)
+				.enter()
+				.append('circle')
+				.attr('r', 3)
+				.attr('cx', function(d, i, j) {
+					var column = j%N;
+					var row = Math.floor(j/N);
+					return d[column]*config.width/N;
+				})
+				.attr('cy', function(d, i, j) {
+					var column = j%N;
+					var row = Math.floor(j/N);
+					return d[row]*config.height/N;
+				})
+				.style('fill', 'steelblue')
+				.style('stroke', 'black')
+				
+				.attr('i', function(d, i, j) {
+					return i;
+				})
+				.attr('j', function(d, i, j) {
+					return j;
+				})
+				.attr('d', function(d, i, j) {
+					return d;
+				});
+				
+			
 		};	
 		return my;
 	}
