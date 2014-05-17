@@ -9,12 +9,13 @@
 		padding: 25px;
 	}
 	</style>
-	<script src='./bower_components/angular/angular.js'></script>
-	<script src='./bower_components/angular-ui-router/release/angular-ui-router.js'></script>
-	<script src='./bower_components/underscore/underscore.js'></script>
-	<script src='./bower_components/d3/d3.js' charset='utf-8'></script>
-	<script src='./app/app.js'></script>
-	<script src='./app/areaChart/areaChart.js'></script>
+	<!-- Javascript -->
+	<% dependencies.forEach(function(file) { %>
+		<script type='text/javascript' src='<%= file %>'></script>
+	<% }); %>
+	<% sources.forEach(function(file) { %>
+		<script type='text/javascript' src='<%= file %>'></script>
+	<% }); %>
 </head>
 <body>
 	<div ui-view></div>
