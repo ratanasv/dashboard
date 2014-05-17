@@ -28,7 +28,7 @@ angular.module('cs519Assign3.scatterPlotMatrix', [
 	}
 
 	config = {
-		data: randomNDimArray(20, 4),
+		data: randomNDimArray(100, 6),
 		width: $scope.widthSlider.value,
 		height: $scope.heightSlider.value
 	};
@@ -38,16 +38,15 @@ angular.module('cs519Assign3.scatterPlotMatrix', [
 	myScatterPlotMatrix.render()
 }])
 
-.factory('scatterPlotMatrix', ['reusableChart', 'scatterPlot', function(reusableChart, scatterPlot) {
+.factory('scatterPlotMatrix', ['reusableChart', function(reusableChart) {
 	return function(config) {
-		var dataYMax;
-		var dataYMin;
-
 		var shifts = [];
 
 		var my = {};
 
 		var N = config.data[0].length;
+
+		var color = d3.scale.category10();
 
 		for (var i=0; i<N*N; i++) {
 			var column = i%N;
@@ -70,6 +69,9 @@ angular.module('cs519Assign3.scatterPlotMatrix', [
 				.attr('width', my.width())
 				.attr('height', my.height());
 
+			var row = 0;
+			var column = 0;
+
 
 			chart.selectAll('g')
 				.data(shifts)
@@ -79,10 +81,9 @@ angular.module('cs519Assign3.scatterPlotMatrix', [
 					return 'translate(' + d[0] + ', ' + d[1]+ ')';
 				});
 
-			var row = 0;
-			var column = 0;
+			
 
-			var rows = chart.selectAll('g')
+			chart.selectAll('g')
 				.selectAll('circle')
 				.data(config.data)
 				.enter()
@@ -98,7 +99,9 @@ angular.module('cs519Assign3.scatterPlotMatrix', [
 					var row = Math.floor(j/N);
 					return d[row]*config.height/N;
 				})
-				.style('fill', 'steelblue')
+				.style('fill', function(d, i, j) {
+					return color(j);
+				})
 				.style('stroke', 'black')
 				
 				.attr('i', function(d, i, j) {
