@@ -36,6 +36,18 @@ module.exports = function(grunt) {
 				src: build_config.source_html,
 				dest: build_config.build_dir + 'templates-app.js'
 			}
+		},
+		jshint: {
+			src: build_config.source_js,
+			options: {
+				curly: true,
+				immed: true,
+				newcap: true,
+				noarg: true,
+				sub: true,
+				boss: true,
+				eqnull: true
+			}
 		}
 	}
 
@@ -44,7 +56,6 @@ module.exports = function(grunt) {
 	grunt.registerMultiTask('assemble', 'Process index.html template', function() {
 		var filesSrc = this.filesSrc;
 		filesSrc.unshift('templates-app.js');
-		console.log(filesSrc);
 		grunt.file.copy('./index.html', build_config.build_dir + 'index.html', {
 			process: function(contents, path) {
 				return grunt.template.process(contents, {
@@ -58,7 +69,7 @@ module.exports = function(grunt) {
 		
 	});
 
-	grunt.registerTask('build', ['clean', 'copy:build', 'html2js', 'assemble']);
+	grunt.registerTask('build', ['jshint', 'clean', 'copy:build', 'html2js', 'assemble']);
 
 };
 
