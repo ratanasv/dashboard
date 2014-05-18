@@ -11,7 +11,7 @@ angular.module('cs519Assign3.multiLineChart', [
 				templateUrl: 'multiLineChart/multiLineChart.html'
 			}
 		}
-	})
+	});
 })
 
 .controller('MultiLineChartCtrl', ['$scope', 'multiLineChart', 'randomArray', function($scope, multiLineChart, randomArray) {
@@ -21,11 +21,11 @@ angular.module('cs519Assign3.multiLineChart', [
 	$scope.heightSlider = {
 		name: 'Height Slider',
 		value: '200'
-	}
+	};
 	$scope.widthSlider = {
 		name: 'Width Slider',
 		value: '800'
-	}
+	};
 
 	config = {
 		data: [randomArray(100), randomArray(100), randomArray(100)],
@@ -35,7 +35,7 @@ angular.module('cs519Assign3.multiLineChart', [
 
 	
 	myMultiLineChart = multiLineChart(config);
-	myMultiLineChart.render()
+	myMultiLineChart.render();
 }])
 
 

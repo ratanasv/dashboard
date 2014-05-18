@@ -11,7 +11,7 @@ angular.module('cs519Assign3.main', [
 				templateUrl: 'main/main.html'
 			}
 		}
-	})
+	});
 })
 
 .controller('MainCtrl', function($scope) {

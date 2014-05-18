@@ -11,7 +11,7 @@ angular.module('cs519Assign3.scatterPlotMatrix', [
 				templateUrl: 'scatterPlotMatrix/scatterPlotMatrix.html'
 			}
 		}
-	})
+	});
 })
 
 .controller('ScatterPlotMatrixCtrl', ['$scope', 'randomNDimArray', 'scatterPlotMatrix', function($scope, randomNDimArray, scatterPlotMatrix) {
@@ -21,11 +21,11 @@ angular.module('cs519Assign3.scatterPlotMatrix', [
 	$scope.heightSlider = {
 		name: 'Height Slider',
 		value: '600'
-	}
+	};
 	$scope.widthSlider = {
 		name: 'Width Slider',
 		value: '800'
-	}
+	};
 
 	config = {
 		data: randomNDimArray(100, 6),
@@ -35,7 +35,7 @@ angular.module('cs519Assign3.scatterPlotMatrix', [
 
 	
 	myScatterPlotMatrix = scatterPlotMatrix(config);
-	myScatterPlotMatrix.render()
+	myScatterPlotMatrix.render();
 }])
 
 .factory('scatterPlotMatrix', ['reusableChart', function(reusableChart) {
@@ -117,5 +117,5 @@ angular.module('cs519Assign3.scatterPlotMatrix', [
 			
 		};	
 		return my;
-	}
+	};
 }]);

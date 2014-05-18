@@ -11,7 +11,7 @@ angular.module('cs519Assign3.areaChart', [
 				templateUrl: 'areaChart/areaChart.html'
 			}
 		}
-	})
+	});
 })
 
 .controller('AreaChartCtrl', ['$scope', 'areaChart', 'randomArray', function($scope, areaChart, randomArray) {
@@ -54,7 +54,7 @@ angular.module('cs519Assign3.areaChart', [
 			dataYMin = 0;
 		}
 
-		my.render = function() {;
+		my.render = function() {
 			var chart = d3.select('#chart')
 				.attr('width', my.width())
 				.attr('height', my.height());
@@ -79,7 +79,7 @@ angular.module('cs519Assign3.areaChart', [
 				.attr('class', 'area')
 				.attr('id', 'areaChartPath')
 				.attr('d', area);
-		}
+		};
 		
 		return my;
 	};

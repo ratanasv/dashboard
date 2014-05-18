@@ -9,16 +9,20 @@ angular.module('cs519Assign3.util', [
 
 
 		my.width = function(value) {
-			if (!value) return width;
+			if (!value) {
+				return width;
+			}
 			width = value;
 			return my;
-		}
+		};
 
 		my.height = function(value) {
-			if (!value) return height;
+			if (!value) {
+				return height;
+			}
 			height = value;
 			return my;
-		}
+		};
 	};
 })
 
@@ -29,7 +33,7 @@ angular.module('cs519Assign3.util', [
 			result.push(Math.random());
 		}
 		return result;
-	}
+	};
 })
 
 .factory('randomNDimArray', function randomNDimArray() {
@@ -42,7 +46,7 @@ angular.module('cs519Assign3.util', [
 			}
 		}
 		return result;
-	}
+	};
 })
 
 .directive('sliderWithLabel', function() {
@@ -52,5 +56,5 @@ angular.module('cs519Assign3.util', [
 		scope : {
 			sliderId: '='
 		}
-	}
+	};
 });
