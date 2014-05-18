@@ -4,6 +4,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-html2js');
 	grunt.loadNpmTasks('grunt-karma');
+	grunt.loadNpmTasks('grunt-contrib-watch');
 
 	var build_config = require('./build_config.js');
 
@@ -40,6 +41,7 @@ module.exports = function(grunt) {
 		},
 		jshint: {
 			src: build_config.source_js,
+			gruntfile: 'Gruntfile.js',
 			options: {
 				curly: true,
 				immed: true,
@@ -71,7 +73,17 @@ module.exports = function(grunt) {
 				singleRun: true
 			},
 			continuous: {
-				singleRun: true
+				background: true
+			}
+		},
+		watch: {
+			gruntfile: {
+				files: 'Gruntfile.js',
+				tasks: ['jshint:gruntfile']
+			},
+			source_js: {
+				files: build_config.source_js,
+				tasks: ['jshint:src', 'karma:unit:run', 'copy:build']
 			}
 		}
 	}
@@ -93,7 +105,7 @@ module.exports = function(grunt) {
 		});
 		
 	});
-
+	grunt.registerTask('continuous', ['karma:continuous', 'watch'])
 	grunt.registerTask('build', ['jshint', 'clean',  'html2js', 'karma:unit', 'copy:build', 'assemble']);
 
 };
