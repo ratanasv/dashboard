@@ -2,6 +2,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
+	grunt.loadNpmTasks('grunt-html2js');
 
 	var build_config = require('./build_config.js');
 
@@ -26,6 +27,15 @@ module.exports = function(grunt) {
 			build: {
 				src: build_config.source_js,
 			}
+		},
+		html2js: {
+			app: {
+				options: {
+					base: 'app/'
+				},
+				src: build_config.source_html,
+				dest: build_config.build_dir + 'templates-app.js'
+			}
 		}
 	}
 
@@ -33,6 +43,8 @@ module.exports = function(grunt) {
 
 	grunt.registerMultiTask('assemble', 'Process index.html template', function() {
 		var filesSrc = this.filesSrc;
+		filesSrc.unshift('templates-app.js');
+		console.log(filesSrc);
 		grunt.file.copy('./index.html', build_config.build_dir + 'index.html', {
 			process: function(contents, path) {
 				return grunt.template.process(contents, {
@@ -46,7 +58,7 @@ module.exports = function(grunt) {
 		
 	});
 
-	grunt.registerTask('build', ['clean', 'copy:build', 'assemble']);
+	grunt.registerTask('build', ['clean', 'copy:build', 'html2js', 'assemble']);
 
 };
 

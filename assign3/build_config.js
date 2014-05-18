@@ -8,5 +8,8 @@ module.exports = {
 	],
 	source_js: [
 		'app/**/*.js'
+	],
+	source_html: [
+		'app/**/*.html'
 	]
 };

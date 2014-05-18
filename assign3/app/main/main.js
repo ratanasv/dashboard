@@ -1,5 +1,5 @@
 angular.module('cs519Assign3.main', [
-
+	'templates-app'
 ])
 
 .config(function($stateProvider) {
