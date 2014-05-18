@@ -24,8 +24,7 @@ module.exports = function(grunt) {
 		},
 		assemble: {
 			build: {
-				dest: build_config.build_dir,
-				src: build_config.build_dir + 'src/**/*.js'
+				src: ['./app/**/*.js'],
 			}
 		}
 	}
@@ -33,12 +32,13 @@ module.exports = function(grunt) {
 	grunt.initConfig(taskConfig);
 
 	grunt.registerMultiTask('assemble', 'Process index.html template', function() {
+		var filesSrc = this.filesSrc;
 		grunt.file.copy('./index.html', build_config.build_dir + 'index.html', {
 			process: function(contents, path) {
 				return grunt.template.process(contents, {
 					data: {
-						sources: build_config.vendor_js,
-						dependencies: build_config.source_js
+						sources: filesSrc,
+						dependencies: build_config.vendor_js
 					}
 				});
 			}
