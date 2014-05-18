@@ -3,6 +3,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-html2js');
+	grunt.loadNpmTasks('grunt-karma');
 
 	var build_config = require('./build_config.js');
 
@@ -54,6 +55,23 @@ module.exports = function(grunt) {
 				quotmark: true,
 				unused: true,
 				trailing: true
+			}	
+		},
+		karma: {
+			options: {
+				browsers: ['Chrome'],
+				frameworks: ['jasmine'],
+				files: build_config.vendor_js.concat([
+					build_config.build_dir + 'templates-app.js', 
+					'bower_components/angular-mocks/angular-mocks.js', 
+					'app/**/*.js'
+				])
+			},
+			unit: {
+				singleRun: true
+			},
+			continuous: {
+				singleRun: true
 			}
 		}
 	}
@@ -76,7 +94,7 @@ module.exports = function(grunt) {
 		
 	});
 
-	grunt.registerTask('build', ['jshint', 'clean', 'copy:build', 'html2js', 'assemble']);
+	grunt.registerTask('build', ['jshint', 'clean',  'html2js', 'karma:unit', 'copy:build', 'assemble']);
 
 };
 
