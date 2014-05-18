@@ -76,7 +76,7 @@ angular.module('cs519Assign3.multiLineChart', [
 				.x(function(d, i) {
 					return i*my.width()/config.data[0].length;
 				})
-				.y(function(d, i) {
+				.y(function(d) {
 					return y(d);
 				});
 

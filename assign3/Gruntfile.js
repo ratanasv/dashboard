@@ -46,7 +46,14 @@ module.exports = function(grunt) {
 				noarg: true,
 				sub: true,
 				boss: true,
-				eqnull: true
+				eqnull: true,
+				eqeqeq: true,
+				freeze: true,
+				indent: 4,
+				latedef: true,
+				quotmark: true,
+				unused: true,
+				trailing: true
 			}
 		}
 	}

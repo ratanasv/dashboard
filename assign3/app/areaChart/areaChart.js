@@ -68,7 +68,7 @@ angular.module('cs519Assign3.areaChart', [
 					return i*my.width()/config.data.length;
 				})
 				.y0(my.height())
-				.y1(function(d, i) {
+				.y1(function(d) {
 					return y(d);
 				});
 

@@ -14,6 +14,6 @@ angular.module('cs519Assign3.main', [
 	});
 })
 
-.controller('MainCtrl', function($scope) {
+.controller('MainCtrl', function() {
 	
 });

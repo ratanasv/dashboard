@@ -13,8 +13,8 @@ angular.module('cs519Assign3', [
 .run(function() {
 })
 
-.controller('AppCtrl', function AppCtrl($scope, $location) {
-	$scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
+.controller('AppCtrl', function AppCtrl($scope) {
+	$scope.$on('$stateChangeSuccess', function(event, toState){
 		if (angular.isDefined(toState.data.pageTitle)) {
 			$scope.pageTitle = toState.data.pageTitle + ' | ngBoilerplate' ;
 		}

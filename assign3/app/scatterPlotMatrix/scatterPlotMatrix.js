@@ -69,15 +69,12 @@ angular.module('cs519Assign3.scatterPlotMatrix', [
 				.attr('width', my.width())
 				.attr('height', my.height());
 
-			var row = 0;
-			var column = 0;
-
 
 			chart.selectAll('g')
 				.data(shifts)
 				.enter()
 				.append('g')
-				.attr('transform', function(d, i) {
+				.attr('transform', function(d) {
 					return 'translate(' + d[0] + ', ' + d[1]+ ')';
 				});
 
@@ -91,11 +88,9 @@ angular.module('cs519Assign3.scatterPlotMatrix', [
 				.attr('r', 3)
 				.attr('cx', function(d, i, j) {
 					var column = j%N;
-					var row = Math.floor(j/N);
 					return d[column]*config.width/N;
 				})
 				.attr('cy', function(d, i, j) {
-					var column = j%N;
 					var row = Math.floor(j/N);
 					return d[row]*config.height/N;
 				})
@@ -104,13 +99,13 @@ angular.module('cs519Assign3.scatterPlotMatrix', [
 				})
 				.style('stroke', 'black')
 				
-				.attr('i', function(d, i, j) {
+				.attr('i', function(d, i) {
 					return i;
 				})
 				.attr('j', function(d, i, j) {
 					return j;
 				})
-				.attr('d', function(d, i, j) {
+				.attr('d', function(d) {
 					return d;
 				});
 				
