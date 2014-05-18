@@ -24,7 +24,7 @@ module.exports = function(grunt) {
 		},
 		assemble: {
 			build: {
-				src: ['./app/**/*.js'],
+				src: build_config.source_js,
 			}
 		}
 	}
