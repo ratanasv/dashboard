@@ -7,9 +7,12 @@ module.exports = {
 		'bower_components/d3/d3.js'
 	],
 	source_js: [
-		'app/**/*.js'
+		'app/**/*.js', '!app/**/*.spec.js'
 	],
 	source_html: [
 		'app/**/*.html'
+	],
+	test_js: [
+		'app/**/*.spec.js'
 	]
 };

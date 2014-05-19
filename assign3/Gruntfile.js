@@ -65,9 +65,9 @@ module.exports = function(grunt) {
 				frameworks: ['jasmine'],
 				files: build_config.vendor_js.concat([
 					build_config.build_dir + 'templates-app.js', 
-					'bower_components/angular-mocks/angular-mocks.js', 
-					'app/**/*.js'
-				])
+					'bower_components/angular-mocks/angular-mocks.js'
+				]).concat(build_config.source_js)
+				.concat(build_config.test_js)
 			},
 			unit: {
 				singleRun: true
@@ -88,6 +88,10 @@ module.exports = function(grunt) {
 			index: {
 				files: 'index.html',
 				tasks: ['assemble']
+			},
+			tpl: {
+				files: build_config.source_html,
+				tasks: ['html2js']
 			}
 		}
 	};
