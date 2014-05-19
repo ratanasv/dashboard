@@ -15,72 +15,46 @@ angular.module('cs519Assign3.areaChart', [
 })
 
 .controller('AreaChartCtrl', ['$scope', 'areaChart', 'randomArray', function($scope, areaChart, randomArray) {
-	var config;
-	var myAreaChart;
+	var data = randomArray(100);
+	var areaPathWithData = areaChart.bind(undefined, data);
 
-	$scope.height = 200;
-	$scope.width = 800;
-
-	config = {
-		data: randomArray(100),
-		width: $scope.width,
-		height: $scope.height
+	$scope.heightSlider = {
+		name: 'Height Slider',
+		value: '200'
+	};
+	$scope.widthSlider = {
+		name: 'Width Slider',
+		value: '800'
 	};
 
-	myAreaChart = areaChart(config);
-	myAreaChart.height(100);
-	myAreaChart.render();
+	$scope.areaPath = areaPathWithData;
 }])
 
-.factory('areaChart', ['reusableChart', function(reusableChart) {
-	return function(config) {
+.factory('areaChart', function() {
+	return function(data, width, height) {
 		var dataYMax;
 		var dataYMin;
+		var area;
+		var y;
 
-		var my = {};
-		reusableChart(my);
-
-		if (config.width) {
-			my.width(config.width);
-		}
-		if (config.height) {
-			my.height(config.height);
-		}
-
-		dataYMax = Math.max.apply(null, config.data);
-		dataYMin = Math.min.apply(null, config.data);
+		dataYMax = Math.max.apply(null, data);
+		dataYMin = Math.min.apply(null, data);
 
 		if (dataYMin > 0) {
 			dataYMin = 0;
 		}
-
-		my.render = function() {
-			var chart = d3.select('#chart')
-				.attr('width', my.width())
-				.attr('height', my.height());
-
-			var area;
-			var y;
-			
-			y = d3.scale.linear().domain([dataYMin, dataYMax]).range([my.height(), 0]);
-			area = d3.svg.area()
-				.x(function(d, i) {
-					return i*my.width()/config.data.length;
-				})
-				.y0(my.height())
-				.y1(function(d) {
-					return y(d);
-				});
-
-			d3.select('#areaChartPath').remove();
-
-			chart.append('path')
-				.datum(config.data)
-				.attr('class', 'area')
-				.attr('id', 'areaChartPath')
-				.attr('d', area);
-		};
 		
-		return my;
+		
+		y = d3.scale.linear().domain([dataYMin, dataYMax]).range([height, 0]);
+		area = d3.svg.area()
+			.x(function(d, i) {
+				return i*width/data.length;
+			})
+			.y0(height)
+			.y1(function(d) {
+				return y(d);
+			});
+		
+		return area(data);
 	};
-}]);
+});
