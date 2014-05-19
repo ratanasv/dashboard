@@ -84,9 +84,13 @@ module.exports = function(grunt) {
 			source_js: {
 				files: build_config.source_js,
 				tasks: ['jshint:src', 'karma:unit:run', 'copy:build']
+			},
+			index: {
+				files: 'index.html',
+				tasks: ['assemble']
 			}
 		}
-	}
+	};
 
 	grunt.initConfig(taskConfig);
 
@@ -94,7 +98,7 @@ module.exports = function(grunt) {
 		var filesSrc = this.filesSrc;
 		filesSrc.unshift('templates-app.js');
 		grunt.file.copy('./index.html', build_config.build_dir + 'index.html', {
-			process: function(contents, path) {
+			process: function(contents) {
 				return grunt.template.process(contents, {
 					data: {
 						sources: filesSrc,
@@ -105,7 +109,7 @@ module.exports = function(grunt) {
 		});
 		
 	});
-	grunt.registerTask('continuous', ['karma:continuous', 'watch'])
+	grunt.registerTask('continuous', ['build', 'karma:continuous', 'watch']);
 	grunt.registerTask('build', ['jshint', 'clean',  'html2js', 'karma:unit', 'copy:build', 'assemble']);
 
 };
