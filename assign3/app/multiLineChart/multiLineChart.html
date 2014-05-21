@@ -1,5 +1,11 @@
 <div>
 	<slider-with-label slider-id='heightSlider'></slider-with-label>
 	<slider-with-label slider-id='widthSlider'></slider-with-label>
+	<slider-with-label slider-id='numLinesSlider'></slider-with-label>
 </div>
-<svg id='chart'></svg>
+<svg>
+	<path ng-repeat='line in getNLines(numLinesSlider.value)' class='line' 
+		ng-attr-d='{{linePath(line.data, widthSlider.value, heightSlider.value)}}' 
+		ng-style='line.style'>
+	</path>
+</svg>

@@ -14,85 +14,81 @@ angular.module('cs519Assign3.multiLineChart', [
 	});
 })
 
-.controller('MultiLineChartCtrl', ['$scope', 'multiLineChart', 'randomArray', function($scope, multiLineChart, randomArray) {
-	var config;
-	var myMultiLineChart;
+.controller('MultiLineChartCtrl', 
+	['$scope', 'linePath', 'randomArray', 'sliderInitHelper', 
+		function($scope, linePath, randomArray, sliderInitHelper) {
+			var NUM_MAX_LINES = 10;
+			var color = d3.scale.category10();
+			var lines = [];
 
-	$scope.heightSlider = {
-		name: 'Height Slider',
-		value: '200'
-	};
-	$scope.widthSlider = {
-		name: 'Width Slider',
-		value: '800'
-	};
+			sliderInitHelper($scope, {
+				widthSlider: {
+					name: 'Width Slider',
+					minValue: 0,
+					maxValue: 1200,
+					value: 800
+				},
+				heightSlider: {
+					name: 'Height Slider',
+					minValue: 0,
+					maxValue: 500,
+					value: 300
+				},
+				numLinesSlider: {
+					name: 'Number of Lines',
+					minValue: 1,
+					maxValue: NUM_MAX_LINES,
+					value: 3
+				}
+			});
 
-	config = {
-		data: [randomArray(100), randomArray(100), randomArray(100)],
-		width: $scope.widthSlider.value,
-		height: $scope.heightSlider.value
-	};
+			for (var i=0; i<NUM_MAX_LINES; i++) {
+				lines.push({
+					data: randomArray(100),
+					style: {
+						stroke: color(i),
+						fill: 'none'
+					},
+					id: i
+				});
+			}
 
-	
-	myMultiLineChart = multiLineChart(config);
-	myMultiLineChart.render();
-}])
+			$scope.linePath = linePath;
+
+			$scope.getNLines = function(n) {
+				return lines.slice(0, n);
+			};
+		}
+	]
+)
 
 
-.factory('multiLineChart', ['reusableChart', function(reusableChart) {
-	return function(config) {
+.factory('linePath', function() {
+	return function(data, width, height) {
 		var dataYMax;
 		var dataYMin;
+		var y;
+		var line;
 
-		var my = {};
-		var color = d3.scale.category10();
-		reusableChart(my);
 
-		if (config.width) {
-			my.width(config.width);
-		}
-		if (config.height) {
-			my.height(config.height);
-		}
-
-		dataYMax = Math.max.apply(null, config.data[0]);
-		dataYMin = Math.min.apply(null, config.data[0]);
+		dataYMax = Math.max.apply(null, data);
+		dataYMin = Math.min.apply(null, data);
 
 		if (dataYMin > 0) {
 			dataYMin = 0;
 		}
 
-		my.render = function() {
-			var chart = d3.select('#chart')
-				.attr('width', my.width())
-				.attr('height', my.height());
-
-			var line;
-			var y;
 			
-			y = d3.scale.linear().domain([dataYMin, dataYMax]).range([my.height(), 0]);
-			line = d3.svg.line()
-				.interpolate('basis')
-				.x(function(d, i) {
-					return i*my.width()/config.data[0].length;
-				})
-				.y(function(d) {
-					return y(d);
-				});
-
-			chart.selectAll('path')
-				.data(config.data)
-				.enter()
-				.append('path')
-				.attr('class', 'line')
-				.attr('d', line)
-				.style('stroke', function(d, i) {
-					return color(i);
-				})
-				.style('fill', 'none');
-
-		};
+		y = d3.scale.linear().domain([dataYMin, dataYMax]).range([height, 0]);
+		line = d3.svg.line()
+			.interpolate('basis')
+			.x(function(d, i) {
+				return i*width/data.length;
+			})
+			.y(function(d) {
+				return y(d);
+			});
 		
-		return my;
+		return line(data);
 	};
-}]);
+});
