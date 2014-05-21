@@ -18,9 +18,9 @@ angular.module('cs519Assign3.scatterPlotMatrix', [
 .controller('ScatterPlotMatrixCtrl', 
 	['$scope', 'randomNDimArray', 'sliderInitHelper', 
 		function($scope, randomNDimArray, sliderInitHelper) {
-			var MAX_DATA_DIMENSION = 8;
-			var NUM_CIRCLES = 100;
-			var data = randomNDimArray(NUM_CIRCLES, MAX_DATA_DIMENSION);
+			var MAX_DATA_DIMENSION = 3;
+			var NUM_CIRCLES = 30;
+			var data = randomNDimArray(MAX_DATA_DIMENSION, NUM_CIRCLES);
 			var color = d3.scale.category10();
 			var i;
 
@@ -41,7 +41,7 @@ angular.module('cs519Assign3.scatterPlotMatrix', [
 					name: 'Data Dimension',
 					minValue: 1,
 					maxValue: MAX_DATA_DIMENSION,
-					value: 6
+					value: 3
 				}
 			});
 			
@@ -62,11 +62,18 @@ angular.module('cs519Assign3.scatterPlotMatrix', [
 
 			$scope.computeTranslate = function(i, j) {
 				var transformString = 'translate(';
-				transformString.concat(j*$scope.widthSlider.value/MAX_DATA_DIMENSION, ', ', i*$scope.heightSlider.value/MAX_DATA_DIMENSION);
+				transformString = transformString.concat(j*$scope.widthSlider.value/MAX_DATA_DIMENSION, 
+					', ', i*$scope.heightSlider.value/MAX_DATA_DIMENSION, ')');
 				return transformString;	
 			};
 
 			$scope.computePositionX = function(i, j, id) {
+				if (i >= MAX_DATA_DIMENSION) {
+					throw 'i out of bound';
+				}
+				if (id >= NUM_CIRCLES) {
+					throw 'id out of bound';
+				}
 				return data[i][id]*$scope.widthSlider.value/MAX_DATA_DIMENSION;
 			};
 

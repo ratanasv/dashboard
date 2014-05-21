@@ -5,6 +5,6 @@
 </div>
 <svg>
 	<g ng-repeat='translate in translates' ng-attr-transform='{{computeTranslate(translate.i, translate.j)}}'>
-		<circle ng-repeat='circle in circles' rx='3' ng-attr-cx='{{computePositionX(translate.i, translate.j, circle.id)}}' ng-attr-cy='{{computePositionY(translate.i, translate.j, circle.id)}}' ng-style='computeStyle(translate.i, translate.j)'></circle>
+		<circle ng-repeat='circle in circles' r='3' ng-attr-cx='{{computePositionX(translate.i, translate.j, circle.id)}}' ng-attr-cy='{{computePositionY(translate.i, translate.j, circle.id)}}' ng-style='computeStyle(translate.i, translate.j)'>
 	</g>
 </svg>
