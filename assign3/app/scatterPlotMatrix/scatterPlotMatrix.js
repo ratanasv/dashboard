@@ -18,8 +18,8 @@ angular.module('cs519Assign3.scatterPlotMatrix', [
 .controller('ScatterPlotMatrixCtrl', 
 	['$scope', 'randomNDimArray', 'sliderInitHelper', 
 		function($scope, randomNDimArray, sliderInitHelper) {
-			var MAX_DATA_DIMENSION = 3;
-			var NUM_CIRCLES = 30;
+			var MAX_DATA_DIMENSION = 5;
+			var NUM_CIRCLES = 50;
 			var data = randomNDimArray(MAX_DATA_DIMENSION, NUM_CIRCLES);
 			var color = d3.scale.category10();
 			var i;
@@ -59,6 +59,10 @@ angular.module('cs519Assign3.scatterPlotMatrix', [
 					j: i%MAX_DATA_DIMENSION
 				});
 			}
+
+			$scope.getNTranslates = function(n) {
+				return $scope.translates.splice(0, n);
+			};
 
 			$scope.computeTranslate = function(i, j) {
 				var transformString = 'translate(';
