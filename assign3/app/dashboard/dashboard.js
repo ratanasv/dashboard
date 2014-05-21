@@ -1,6 +1,7 @@
 angular.module('cs519Assign3.dashboard', [
 	'templates-app',
-	'cs519Assign3.util'
+	'cs519Assign3.util',
+	'ui.router'
 ])
 
 .config(function($stateProvider) {

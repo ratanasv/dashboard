@@ -1,4 +1,5 @@
 angular.module('cs519Assign3.areaChart', [
+	'ui.router',
 	'cs519Assign3.util'
 ])
 
