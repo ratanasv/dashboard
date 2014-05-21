@@ -1,5 +1,10 @@
 <div>
 	<slider-with-label slider-id='heightSlider'></slider-with-label>
 	<slider-with-label slider-id='widthSlider'></slider-with-label>
+	<slider-with-label slider-id='dataDimension'></slider-with-label>
 </div>
-<svg id='chart'></svg>
+<svg>
+	<g ng-repeat='translate in translates' ng-attr-transform='{{computeTranslate(translate.i, translate.j)}}'>
+		<circle ng-repeat='circle in circles' rx='3' ng-attr-cx='{{computePositionX(translate.i, translate.j, circle.id)}}' ng-attr-cy='{{computePositionY(translate.i, translate.j, circle.id)}}' ng-style='computeStyle(translate.i, translate.j)'></circle>
+	</g>
+</svg>

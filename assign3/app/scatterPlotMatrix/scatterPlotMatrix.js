@@ -14,103 +14,71 @@ angular.module('cs519Assign3.scatterPlotMatrix', [
 	});
 })
 
-.controller('ScatterPlotMatrixCtrl', ['$scope', 'randomNDimArray', 'scatterPlotMatrix', function($scope, randomNDimArray, scatterPlotMatrix) {
-	var config;
-	var myScatterPlotMatrix;
+.controller('ScatterPlotMatrixCtrl', 
+	['$scope', 'randomNDimArray', 'sliderInitHelper', 
+		function($scope, randomNDimArray, sliderInitHelper) {
+			var MAX_DATA_DIMENSION = 8;
+			var NUM_CIRCLES = 100;
+			var data = randomNDimArray(NUM_CIRCLES, MAX_DATA_DIMENSION);
+			var color = d3.scale.category10();
+			var i;
 
-	$scope.heightSlider = {
-		name: 'Height Slider',
-		value: '600'
-	};
-	$scope.widthSlider = {
-		name: 'Width Slider',
-		value: '800'
-	};
-
-	config = {
-		data: randomNDimArray(100, 6),
-		width: $scope.widthSlider.value,
-		height: $scope.heightSlider.value
-	};
-
-	
-	myScatterPlotMatrix = scatterPlotMatrix(config);
-	myScatterPlotMatrix.render();
-}])
-
-.factory('scatterPlotMatrix', ['reusableChart', function(reusableChart) {
-	return function(config) {
-		var shifts = [];
-
-		var my = {};
-
-		var N = config.data[0].length;
-
-		var color = d3.scale.category10();
-
-		for (var i=0; i<N*N; i++) {
-			var column = i%N;
-			var row = Math.floor(i/N);
-			shifts.push([column/N*config.width, row/N*config.height]);
-		}
-
-		reusableChart(my);
-
-		if (config.width) {
-			my.width(config.width);
-		}
-		if (config.height) {
-			my.height(config.height);
-		}
-
-
-		my.render = function() {
-			var chart = d3.select('#chart')
-				.attr('width', my.width())
-				.attr('height', my.height());
-
-
-			chart.selectAll('g')
-				.data(shifts)
-				.enter()
-				.append('g')
-				.attr('transform', function(d) {
-					return 'translate(' + d[0] + ', ' + d[1]+ ')';
-				});
-
+			sliderInitHelper($scope, {
+				widthSlider: {
+					name: 'Width Slider',
+					minValue: 0,
+					maxValue: 1000,
+					value: 800
+				},
+				heightSlider: {
+					name: 'Height Slider',
+					minValue: 0,
+					maxValue: 1000,
+					value: 800
+				},
+				dataDimension: {
+					name: 'Data Dimension',
+					minValue: 1,
+					maxValue: MAX_DATA_DIMENSION,
+					value: 6
+				}
+			});
 			
-
-			chart.selectAll('g')
-				.selectAll('circle')
-				.data(config.data)
-				.enter()
-				.append('circle')
-				.attr('r', 3)
-				.attr('cx', function(d, i, j) {
-					var column = j%N;
-					return d[column]*config.width/N;
-				})
-				.attr('cy', function(d, i, j) {
-					var row = Math.floor(j/N);
-					return d[row]*config.height/N;
-				})
-				.style('fill', function(d, i, j) {
-					return color(j);
-				})
-				.style('stroke', 'black')
-				
-				.attr('i', function(d, i) {
-					return i;
-				})
-				.attr('j', function(d, i, j) {
-					return j;
-				})
-				.attr('d', function(d) {
-					return d;
+			$scope.circles = [];
+			for (i=0; i<NUM_CIRCLES; i++) {
+				$scope.circles.push({
+					id: i
 				});
-				
-			
-		};	
-		return my;
-	};
-}]);
+			}
+
+			$scope.translates = [];
+			for (i=0; i<MAX_DATA_DIMENSION*MAX_DATA_DIMENSION; i++) {
+				$scope.translates.push({
+					i: Math.floor(i/MAX_DATA_DIMENSION),
+					j: i%MAX_DATA_DIMENSION
+				});
+			}
+
+			$scope.computeTranslate = function(i, j) {
+				var transformString = 'translate(';
+				transformString.concat(j*$scope.widthSlider.value/MAX_DATA_DIMENSION, ', ', i*$scope.heightSlider.value/MAX_DATA_DIMENSION);
+				return transformString;	
+			};
+
+			$scope.computePositionX = function(i, j, id) {
+				return data[i][id]*$scope.widthSlider.value/MAX_DATA_DIMENSION;
+			};
+
+			$scope.computePositionY = function(i, j, id) {
+				return data[j][id]*$scope.heightSlider.value/MAX_DATA_DIMENSION;
+			};
+
+			$scope.computeStyle = function(i, j) {
+				return {
+					fill: color(j),
+					stroke: 'black'
+				};
+			};
+		}
+	]
+);
