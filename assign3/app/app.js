@@ -3,7 +3,8 @@ angular.module('cs519Assign3', [
 	'cs519Assign3.areaChart',
 	'cs519Assign3.main',
 	'cs519Assign3.multiLineChart',
-	'cs519Assign3.scatterPlotMatrix'
+	'cs519Assign3.scatterPlotMatrix',
+	'cs519Assign3.dashboard'
 ])
 
 .config(function($stateProvider, $urlRouterProvider) {

@@ -83,7 +83,7 @@ module.exports = function(grunt) {
 			},
 			source_js: {
 				files: build_config.source_js,
-				tasks: ['jshint:src', 'karma:unit:run', 'copy:build']
+				tasks: ['jshint:src', 'html2js', 'karma:unit:run', 'copy:build']
 			},
 			index: {
 				files: 'index.html',
