@@ -14,18 +14,24 @@ angular.module('cs519Assign3.areaChart', [
 	});
 })
 
-.controller('AreaChartCtrl', ['$scope', 'areaChart', 'randomArray', function($scope, areaChart, randomArray) {
+.controller('AreaChartCtrl', ['$scope', 'areaChart', 'randomArray', 'sliderInitHelper', function($scope, areaChart, randomArray, sliderInitHelper) {
 	var data = randomArray(100);
 	var areaPathWithData = areaChart.bind(undefined, data);
 
-	$scope.heightSlider = {
-		name: 'Height Slider',
-		value: '200'
-	};
-	$scope.widthSlider = {
-		name: 'Width Slider',
-		value: '800'
-	};
+	sliderInitHelper($scope, {
+		widthSlider: {
+			name: 'Width Slider',
+			minValue: 0,
+			maxValue: 1200,
+			value: 800
+		},
+		heightSlider: {
+			name: 'Height Slider',
+			minValue: 0,
+			maxValue: 500,
+			value: 300
+		}
+	});
 
 	$scope.areaPath = areaPathWithData;
 }])
