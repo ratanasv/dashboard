@@ -3,9 +3,15 @@
 	<slider-with-label slider-id='widthSlider'></slider-with-label>
 	<slider-with-label slider-id='numLinesSlider'></slider-with-label>
 </div>
-<svg>
+<svg ng-attr-width='{{widthSlider.value}}' ng-attr-height='{{heightSlider.value}}'>
 	<path ng-repeat='line in getNLines(numLinesSlider.value)' class='line' 
-		ng-attr-d='{{linePath(line.data, widthSlider.value, heightSlider.value)}}' 
+		ng-attr-d='{{linePath(line.data(), widthSlider.value, heightSlider.value)}}' 
 		ng-style='line.style'>
 	</path>
 </svg>
+
+<p ng-repeat='perlin in perlins'>
+X: <input type='number' ng-model='perlin.x' required>
+Y: <input type='number' ng-model='perlin.y' required>
+Slope: <input type='number' ng-model='perlin.slope' required>
+</p>

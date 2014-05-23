@@ -21,8 +21,17 @@ angular.module('cs519Assign3.multiLineChart', [
 			var NUM_MAX_LINES = 6;
 			var color = d3.scale.category10();
 			var lines = [];
-			var data;
-			var noiseFunc;
+			$scope.perlins = [{
+				x: 0,
+				y: 0,
+				slope: 45.5
+			},
+			{
+				x: 1,
+				y: 0,
+				slope: -90.7
+			}
+			];
 
 			sliderInitHelper($scope, {
 				widthSlider: {
@@ -45,14 +54,20 @@ angular.module('cs519Assign3.multiLineChart', [
 				}
 			});
 
+			function generateData(octave) {
+				return function() {
+					var noiseFunc = noise($scope.perlins, octave);
+					var result = [];
+					for (var t=0; t<100; t++) {
+						result.push(noiseFunc(t*$scope.perlins.length/100));
+					}
+					return result;
+				};
+			}
+
 			for (var i=1; i<=NUM_MAX_LINES; i++) {
-				data = [];
-				noiseFunc = noise([0.5, 0.7], i);
-				for (var t=0; t<100; t++) {
-					data.push(noiseFunc(t/50));
-				}
 				lines.push({
-					data: data,
+					data: generateData(i),
 					style: {
 						stroke: color(i),
 						fill: 'none'
@@ -110,13 +125,22 @@ angular.module('cs519Assign3.multiLineChart', [
 		return -1.0*Math.pow(t,2)+Math.pow(t,3);
 	}
 
+	function cn0(t) {
+		return 1.0-3.0*Math.pow(t,2)+2.0*Math.pow(t,3);
+	}
+
+	function cn1(t) {
+		return 1.0-cn0(t);
+	}
+
 	return function(seeds, octave) {
 		var baseNoise = function(t) {
-			var t0 = Math.floor(t)%seeds.length;
-			var tp = (t%seeds.length)-t0;
-			var t1 = (t0+1)%seeds.length;
+			var i0 = Math.floor(t)%seeds.length;
+			var i1 = (i0+1)%seeds.length;
+			var tp = t%seeds.length-seeds[i0].x;
 
-			return cg0(tp)*seeds[t0] + cg1(tp)*seeds[t1];
+			return cn0(tp)*seeds[i0].y + cn1(tp)*seeds[i1].y + 
+				cg0(tp)*seeds[i0].slope + cg1(tp)*seeds[i1].slope;
 		};
 
 		return function(t) {
