@@ -16,11 +16,13 @@ angular.module('cs519Assign3.multiLineChart', [
 })
 
 .controller('MultiLineChartCtrl', 
-	['$scope', 'linePath', 'randomArray', 'sliderInitHelper', 
-		function($scope, linePath, randomArray, sliderInitHelper) {
-			var NUM_MAX_LINES = 10;
+	['$scope', 'linePath', 'randomArray', 'sliderInitHelper', 'noise',
+		function($scope, linePath, randomArray, sliderInitHelper, noise) {
+			var NUM_MAX_LINES = 6;
 			var color = d3.scale.category10();
 			var lines = [];
+			var data;
+			var noiseFunc;
 
 			sliderInitHelper($scope, {
 				widthSlider: {
@@ -43,9 +45,14 @@ angular.module('cs519Assign3.multiLineChart', [
 				}
 			});
 
-			for (var i=0; i<NUM_MAX_LINES; i++) {
+			for (var i=1; i<=NUM_MAX_LINES; i++) {
+				data = [];
+				noiseFunc = noise([0.5, 0.7], i);
+				for (var t=0; t<100; t++) {
+					data.push(noiseFunc(t/50));
+				}
 				lines.push({
-					data: randomArray(100),
+					data: data,
 					style: {
 						stroke: color(i),
 						fill: 'none'
@@ -92,4 +99,33 @@ angular.module('cs519Assign3.multiLineChart', [
 		
 		return line(data);
 	};
+})
+
+.factory('noise', function() {
+	function cg0(t) {
+		return t-2.0*Math.pow(t,2)+Math.pow(t,3);
+	}
+
+	function cg1(t) {
+		return -1.0*Math.pow(t,2)+Math.pow(t,3);
+	}
+
+	return function(seeds, octave) {
+		var baseNoise = function(t) {
+			var t0 = Math.floor(t)%seeds.length;
+			var tp = (t%seeds.length)-t0;
+			var t1 = (t0+1)%seeds.length;
+
+			return cg0(tp)*seeds[t0] + cg1(tp)*seeds[t1];
+		};
+
+		return function(t) {
+			var result = 0.0;
+			for (var i=0; i<octave; i++) {
+				result += Math.pow(0.5,i)*baseNoise(t*Math.pow(2,i));
+			}
+			return result;
+		}; 
+	};
+
 });
