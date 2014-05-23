@@ -2,7 +2,6 @@
 <slider-with-label slider-id='widthSlider'></slider-with-label>
 <slider-with-label slider-id='sizeSlider'></slider-with-label>
 <br>
-<svg ng-attr-width='{{widthSlider.value}}' ng-attr-height='{{heightSlider.value}}'>
-<rect ng-repeat='server in servers' ng-attr-x='{{serverPositionX(server.id)}}' ng-attr-y='{{serverPositionY(server.id)}}' ng-attr-rx='{{sizeSlider.value*0.3}}' ng-attr-ry='{{sizeSlider.value*0.3}}' ng-attr-width='{{sizeSlider.value}}' ng-attr-height='{{sizeSlider.value}}'> 
-
-</svg>
+<div ng-style='getBigStyle()'>
+<div ng-repeat='metric in metrics' ng-style='metric.style'>{{metric.name}}</div>
+</div>
