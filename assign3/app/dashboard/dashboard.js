@@ -29,7 +29,7 @@ angular.module('cs519Assign3.dashboard', [
 				heightSlider: {
 					name: 'Height Slider',
 					minValue: 0,
-					maxValue: 1200,
+					maxValue: 2000,
 					value: 600
 				},
 				sizeSlider: {
@@ -40,7 +40,7 @@ angular.module('cs519Assign3.dashboard', [
 				}
 			});
 
-			$scope.metrics = calculateMetrics($scope.widthSlider.value, $scope.heightSlider.value);
+			$scope.getMetrics = calculateMetrics;
 
 			$scope.getBigStyle = function() {
 				return {

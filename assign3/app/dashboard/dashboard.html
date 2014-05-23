@@ -3,7 +3,7 @@
 <slider-with-label slider-id='sizeSlider'></slider-with-label>
 <br>
 <div ng-style='getBigStyle()'>
-<div ng-repeat='metric in metrics' ng-style='metric.style'>
+<div ng-repeat='metric in getMetrics(widthSlider.value, heightSlider.value)' ng-style='metric.style'>
 	{{metric.fullyQualifiedName}}
 </div>
 </div>
