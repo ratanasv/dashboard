@@ -17,58 +17,40 @@ angular.module('cs519Assign3.dashboard', [
 })
 
 .controller('DashboardCtrl', 
-	['$scope', 'sliderInitHelper', 'mockData', function($scope, sliderInitHelper, mockData) {
-		var metric;
-		var color = d3.scale.category20c();
-		sliderInitHelper($scope, {
-			widthSlider: {
-				name: 'Width Slider',
-				minValue: 0,
-				maxValue: 1200,
-				value: 800
-			},
-			heightSlider: {
-				name: 'Height Slider',
-				minValue: 0,
-				maxValue: 1200,
-				value: 300
-			},
-			sizeSlider: {
-				name: 'Size Slider',
-				minValue: 0,
-				maxValue: 100,
-				value: 50
-			}
-		});
+	['$scope', 'sliderInitHelper', 'calculateMetrics',
+		function($scope, sliderInitHelper, calculateMetrics) {
+			sliderInitHelper($scope, {
+				widthSlider: {
+					name: 'Width Slider',
+					minValue: 0,
+					maxValue: 1200,
+					value: 800
+				},
+				heightSlider: {
+					name: 'Height Slider',
+					minValue: 0,
+					maxValue: 1200,
+					value: 600
+				},
+				sizeSlider: {
+					name: 'Size Slider',
+					minValue: 0,
+					maxValue: 100,
+					value: 50
+				}
+			});
 
-		var treemap = d3.layout.treemap()
-    		.size([$scope.widthSlider.value, $scope.heightSlider.value])
-   			.sticky(true)
-    		.value(function(d) { return d.value; });
+			$scope.metrics = calculateMetrics($scope.widthSlider.value, $scope.heightSlider.value);
 
-    	$scope.metrics = treemap.nodes(mockData);
-    	alert($scope.metrics);
-    	for (var i=0; i<$scope.metrics.length; i++) {
-    		metric = $scope.metrics[i];
-    		metric.style = {
-    			left: metric.x + 'px',
-    			top: metric.y + 'px',
-    			width: metric.dx + 'px',
-    			height: metric.dy + 'px',
-    			position: 'absolute',
-    			background: color(metric.name),
-    			border: 'solid 2px white'
-    		};
-    	}
-
-    	$scope.getBigStyle = function() {
-    		return {
-    			position: 'relative',
-    			width: $scope.widthSlider.value,
-    			height: $scope.heightSlider.value
-    		};
-    	};
-	}]
+			$scope.getBigStyle = function() {
+				return {
+					position: 'relative',
+					width: $scope.widthSlider.value,
+					height: $scope.heightSlider.value
+				};
+			};
+		}
+	]
 )
 
 .factory('mockData', function() {
@@ -88,6 +70,10 @@ angular.module('cs519Assign3.dashboard', [
 							{
 								name: 'memory',
 								value: 1.0
+							},
+							{
+								name: 'incoming',
+								value: 0.7
 							}
 						]
 					},
@@ -139,4 +125,44 @@ angular.module('cs519Assign3.dashboard', [
 			}
 		]
 	};
-});
+})
+
+.factory('getFullyQualifiedName', function() {
+	return function getFullyQualifiedNameRecursive(node) {
+		if (!node.parent) {
+			return node.name;
+		}
+		return getFullyQualifiedNameRecursive(node.parent) + '.' + node.name;
+	};
+})
+
+.factory('calculateMetrics', ['mockData', 'getFullyQualifiedName', function(mockData, getFullyQualifiedName) {
+	return function(width, height) {
+		var treemap = d3.layout.treemap()
+			.size([width, height])
+			.sticky(true)
+			.value(function() { return 1.0; });
+		var metrics = treemap.nodes(mockData);
+		var metric;
+		var color = d3.scale.category20c();
+
+		for (var i=0; i<metrics.length; i++) {
+			metric = metrics[i];
+			metric.style = {
+				left: metric.x + 'px',
+				top: metric.y + 'px',
+				width: metric.dx + 'px',
+				height: metric.dy + 'px',
+				position: 'absolute',
+				background: color(metric.name),
+				border: 'solid ' + (40*Math.pow(0.6, metric.depth)) + 'px white',
+				font: '10px sans-serif',
+				'text-align': 'center',
+				'vertical-align': 'middle',
+				'line-height': metric.dy + 'px'
+			};
+			metric.fullyQualifiedName = getFullyQualifiedName(metric);
+		}
+		return metrics;
+	};
+}]);
