@@ -1,10 +1,12 @@
 angular.module('cs519Assign3.dashboard', [
 	'templates-app',
 	'cs519Assign3.util',
-	'ui.router'
+	'ui.router',
+	'cs519Assign3.cubeboard'
 ])
 
-.config(function($stateProvider) {
+.config(function($stateProvider, $urlRouterProvider) {
+	$urlRouterProvider.when('/dashboard', '/dashboard/cubeboard');
 	$stateProvider.state('dashboard', {
 		url: '/dashboard',
 		views: {
@@ -19,6 +21,7 @@ angular.module('cs519Assign3.dashboard', [
 .controller('DashboardCtrl', 
 	['$scope', 'sliderInitHelper', 'calculateMetrics',
 		function($scope, sliderInitHelper, calculateMetrics) {
+
 			sliderInitHelper($scope, {
 				widthSlider: {
 					name: 'Width Slider',
@@ -45,8 +48,8 @@ angular.module('cs519Assign3.dashboard', [
 			$scope.getBigStyle = function() {
 				return {
 					position: 'relative',
-					width: $scope.widthSlider.value,
-					height: $scope.heightSlider.value
+					width: $scope.widthSlider.value + 'px',
+					height: $scope.heightSlider.value + 'px'
 				};
 			};
 		}
