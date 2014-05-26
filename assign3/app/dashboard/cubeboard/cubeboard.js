@@ -17,26 +17,62 @@ angular.module('cs519Assign3.cubeboard', [
 })
 
 .controller('CubeboardCtrl', function() {
-	var CUBISM_SIZE = 800;
-	var CUBISM_STEP = 1000;
+	var socket = new WebSocket('ws://128.193.36.250:1081/1.0/event/get');
+	var START = 1401121957000;
 	var context = cubism.context()
-		.serverDelay(5 * 1000)
-		.step(CUBISM_STEP) 
-		.size(CUBISM_SIZE); 
-	var horizon = context.horizon();
+		.step(1000)
+		.size(900);
 
-	cube = context.cube('http://128.193.36.250:1080');
-	var metrics = [
-		cube.metric('cs519'),
-		cube.metric('sum(cs519)')
-	];
+	var horizon = context.horizon()
+		.height(60);
 
-	d3.select('body').selectAll('.horizon')
-		.data(metrics)
-		.enter()
-		.append('div')
-		.attr('class', 'horizon')
-		.call(horizon);
+	var dewy = horizon.scale();
 
+	socket.onopen = function() {
+		d3.select('#cubeboard')
+			.selectAll('.horizon')
+			.data([context.metric(
+				function(start, stop, step, callback) {
+					console.log('tick');
+					var events = [];
+					socket.send(JSON.stringify({
+						expression: 'cs519(value)',
+						start: start,
+						stop: stop
+					}));
+					socket.onmessage = function(message) {
+						var payload;
+						payload = JSON.parse(message.data);
+						if (message.data === 'null') { //end of transmission
+							callback(null, events);
+						} else {
+							events.push(payload.data.value);
+						}
+					
+					};
+				},
+				'yomama is fat'
+			)])
+			.enter()
+			.append('div')
+			.attr('class', 'horizon')
+			.call(horizon);
+	};
+})
 
+.factory('cubeData', function() {
+	return function(context, socket, name) {
+		return context.metric(function(start, stop, step, callback) {
+			socket.send(JSON.stringify({
+				expression: 'cs519(value)',
+				start: start,
+				stop: stop
+			}));
+			socket.onmessage = function(message) {
+				if (message.data) {
+					callback(null, message.data);
+				}
+			};
+		}, name);
+	};
 });
