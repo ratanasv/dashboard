@@ -55,7 +55,7 @@ module.exports = function(grunt) {
 				indent: 4,
 				latedef: true,
 				quotmark: true,
-				unused: true,
+				unused: false,
 				trailing: true
 			}	
 		},
