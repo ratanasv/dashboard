@@ -17,7 +17,7 @@ angular.module('cs519Assign3.cubeboard', [
 })
 
 .controller('CubeboardCtrl', function() {
-	var socket = new WebSocket('ws://128.193.36.250:1081/1.0/event/get');
+	var sockets;
 	var START = 1401121957000;
 	var context = cubism.context()
 		.step(1000)
@@ -26,38 +26,50 @@ angular.module('cs519Assign3.cubeboard', [
 	var horizon = context.horizon()
 		.height(60);
 
-	var dewy = horizon.scale();
+	var metrics = [
+		'ord_apache_0_cpu', 'ord_apache_0_mem', 'ord_apache_0_incoming', 
+		'ord_apache_1_cpu', 'ord_apache_1_mem',
+		'ord_apache_2_cpu', 'ord_apache_2_mem', 'ord_apache_2_incoming',
+		'pdx_apache_0_cpu', 'pdx_apache_0_mem', 'pdx_apache_0_incoming', 
+		'pdx_nodejs_0_cpu', 'pdx_nodejs_0_mem', 'pdx_nodejs_0_incoming', 'pdx_nodejs_0_outgoing',
+		'pdx_nodejs_1_cpu', 'pdx_nodejs_1_mem', 'pdx_nodejs_1_incoming', 'pdx_nodejs_1_outgoing'
+	];
 
-	socket.onopen = function() {
-		d3.select('#cubeboard')
-			.selectAll('.horizon')
-			.data([context.metric(
-				function(start, stop, step, callback) {
-					console.log('tick');
-					var events = [];
-					socket.send(JSON.stringify({
-						expression: 'cs519(value)',
-						start: start,
-						stop: stop
-					}));
-					socket.onmessage = function(message) {
-						var payload;
-						payload = JSON.parse(message.data);
-						if (message.data === 'null') { //end of transmission
-							callback(null, events);
-						} else {
-							events.push(payload.data.value);
-						}
-					
-					};
-				},
-				'yomama is fat'
-			)])
-			.enter()
-			.append('div')
-			.attr('class', 'horizon')
-			.call(horizon);
-	};
+	function fetchMetric(metricName) {
+		var socket = new WebSocket('ws://128.193.36.250:1081/1.0/event/get');
+		var socketReady = false;
+		socket.onopen = function() {
+			socketReady = true;
+		};
+		return context.metric(function(start, stop, step, callback) {
+			var events = [];
+			if (socketReady) {
+				socket.send(JSON.stringify({
+					expression: 'ord_apache_0_cpu(value)',
+					start: start,
+					stop: stop
+				}));
+				socket.onmessage = function(message) {
+					var payload;
+					payload = JSON.parse(message.data);
+					if (message.data === 'null') { //end of transmission
+						callback(null, events);
+					} else {
+						events.push(payload.data.value);
+					}
+				};
+			}
+		}, metricName);
+	}
+
+	d3.select('#cubeboard')
+		.selectAll('.horizon')
+		.data(metrics.map(fetchMetric))
+		.enter()
+		.append('div')
+		.attr('class', 'horizon')
+		.call(horizon);
+
 })
 
 .factory('cubeData', function() {
