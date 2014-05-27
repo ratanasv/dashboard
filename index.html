@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html ng-app='cs519Assign3'>
+<head>
+	<style>
+	#chart .area {
+		fill: steelblue;
+	}
+	.slider {
+		padding: 15px;
+	}
+	</style>
+	<!-- Javascript -->
+	
+		<script type='text/javascript' src='bower_components/angular/angular.js' charset='UTF-8'></script>
+	
+		<script type='text/javascript' src='bower_components/angular-ui-router/release/angular-ui-router.js' charset='UTF-8'></script>
+	
+		<script type='text/javascript' src='bower_components/underscore/underscore.js' charset='UTF-8'></script>
+	
+		<script type='text/javascript' src='bower_components/d3/d3.js' charset='UTF-8'></script>
+	
+		<script type='text/javascript' src='bower_components/socket.io-client/dist/socket.io.js' charset='UTF-8'></script>
+	
+		<script type='text/javascript' src='bower_components/cubism/cubism.v1.js' charset='UTF-8'></script>
+	
+	
+		<script type='text/javascript' src='templates-app.js'></script>
+	
+		<script type='text/javascript' src='app/app.js'></script>
+	
+		<script type='text/javascript' src='app/areaChart/areaChart.js'></script>
+	
+		<script type='text/javascript' src='app/dashboard/cubeboard/cubeboard.js'></script>
+	
+		<script type='text/javascript' src='app/dashboard/dashboard.js'></script>
+	
+		<script type='text/javascript' src='app/main/main.js'></script>
+	
+		<script type='text/javascript' src='app/multiLineChart/multiLineChart.js'></script>
+	
+		<script type='text/javascript' src='app/scatterPlotMatrix/scatterPlotMatrix.js'></script>
+	
+		<script type='text/javascript' src='app/util.js'></script>
+	
+</head>
+<body>
+	<a ui-sref='areaChart'>AreaChart</a>
+	<a ui-sref='multiLineChart'>MultiLineChart</a>
+	<a ui-sref='scatterPlotMatrix'>ScatterPlotMatrix</a>
+	<a ui-sref='dashboard'>Dashboard</a>
+	<div ui-view='main'></div>
+	
+</body>
+</html>

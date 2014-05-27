@@ -1,5 +1,5 @@
 module.exports = {
-	build_dir: 'build/',
+	build_dir: '../',
 	vendor_js: [
 		'bower_components/angular/angular.js',
 		'bower_components/angular-ui-router/release/angular-ui-router.js',
