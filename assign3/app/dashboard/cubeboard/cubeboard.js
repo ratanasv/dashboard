@@ -17,8 +17,6 @@ angular.module('cs519Assign3.cubeboard', [
 })
 
 .controller('CubeboardCtrl', function() {
-	var sockets;
-	var START = 1401121957000;
 	var context = cubism.context()
 		.step(1000)
 		.size(900);
@@ -43,22 +41,29 @@ angular.module('cs519Assign3.cubeboard', [
 		};
 		return context.metric(function(start, stop, step, callback) {
 			var events = [];
-			if (socketReady) {
-				socket.send(JSON.stringify({
-					expression: 'ord_apache_0_cpu(value)',
-					start: start,
-					stop: stop
-				}));
-				socket.onmessage = function(message) {
-					var payload;
-					payload = JSON.parse(message.data);
-					if (message.data === 'null') { //end of transmission
-						callback(null, events);
-					} else {
-						events.push(payload.data.value);
-					}
-				};
+			function fetchMetricWhenReady() {
+				if (socketReady) {
+					socket.send(JSON.stringify({
+						expression: metricName + '(value)',
+						start: start,
+						stop: stop
+					}));
+					socket.onmessage = function(message) {
+						var payload;
+						payload = JSON.parse(message.data);
+						if (message.data === 'null') { //end of transmission
+							callback(null, events);
+						} else {
+							events.push(payload.data.value);
+						}
+					};
+				} else {
+					setTimeout(function() {
+						fetchMetricWhenReady();
+					}, 200);
+				}				
 			}
+			fetchMetricWhenReady();
 		}, metricName);
 	}
 
