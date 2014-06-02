@@ -16,22 +16,13 @@ angular.module('cs519Assign3.cubeboard', [
 	});
 })
 
-.controller('CubeboardCtrl', function() {
+.controller('CubeboardCtrl', ['metricsList', function(metricsList) {
 	var context = cubism.context()
 		.step(1000)
 		.size(900);
 
 	var horizon = context.horizon()
 		.height(60);
-
-	var metrics = [
-		'ord_apache_0_cpu', 'ord_apache_0_mem', 'ord_apache_0_incoming', 
-		'ord_apache_1_cpu', 'ord_apache_1_mem',
-		'ord_apache_2_cpu', 'ord_apache_2_mem', 'ord_apache_2_incoming',
-		'pdx_apache_0_cpu', 'pdx_apache_0_mem', 'pdx_apache_0_incoming', 
-		'pdx_nodejs_0_cpu', 'pdx_nodejs_0_mem', 'pdx_nodejs_0_incoming', 'pdx_nodejs_0_outgoing',
-		'pdx_nodejs_1_cpu', 'pdx_nodejs_1_mem', 'pdx_nodejs_1_incoming', 'pdx_nodejs_1_outgoing'
-	];
 
 	function fetchMetric(metricName) {
 		var socket = new WebSocket('ws://128.193.36.250:1081/1.0/event/get');
@@ -69,12 +60,23 @@ angular.module('cs519Assign3.cubeboard', [
 
 	d3.select('#cubeboard')
 		.selectAll('.horizon')
-		.data(metrics.map(fetchMetric))
+		.data(metricsList.map(fetchMetric))
 		.enter()
 		.append('div')
 		.attr('class', 'horizon')
 		.call(horizon);
 
+}])
+
+.factory('metricsList', function() {
+	return [
+		'ord_apache_0_cpu', 'ord_apache_0_mem', 'ord_apache_0_incoming', 
+		'ord_apache_1_cpu', 'ord_apache_1_mem',
+		'ord_apache_2_cpu', 'ord_apache_2_mem', 'ord_apache_2_incoming',
+		'pdx_apache_0_cpu', 'pdx_apache_0_mem', 'pdx_apache_0_incoming', 
+		'pdx_nodejs_0_cpu', 'pdx_nodejs_0_mem', 'pdx_nodejs_0_incoming', 'pdx_nodejs_0_outgoing',
+		'pdx_nodejs_1_cpu', 'pdx_nodejs_1_mem', 'pdx_nodejs_1_incoming', 'pdx_nodejs_1_outgoing'
+	];
 })
 
 .factory('cubeData', function() {
