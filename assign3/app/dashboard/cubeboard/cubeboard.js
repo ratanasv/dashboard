@@ -94,4 +94,31 @@ angular.module('cs519Assign3.cubeboard', [
 			};
 		}, name);
 	};
+})
+
+.factory('createMetricsList', function() {
+	return function createMetricsList(root, prefix) {
+		var metricsList = [];
+		var childNode = root.children;
+		var parentsNames;
+
+		if (!childNode) {
+			metricsList.push(prefix)
+			return metricsList;
+		}
+
+
+		for (var i=0; i<childNode.length; i++) {
+			var child = childNode[i];
+			if (prefix === '') {
+				parentsNames = child.name;
+			} else {
+				parentsNames = prefix + '_' + child.name;
+			}
+			var asdf = createMetricsList(child, parentsNames);
+			metricsList = metricsList.concat(asdf);
+		}
+
+		return metricsList;
+	}
 });

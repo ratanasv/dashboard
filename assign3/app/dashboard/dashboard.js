@@ -139,6 +139,29 @@ angular.module('cs519Assign3.dashboard', [
 	};
 })
 
+/*.factory('createD3TreemapRepresentation', function() {
+	return function createD3TreemapRepresentation(metricsList) {
+		var hierarchy = {
+			name: '_root',
+			children: []
+		};
+
+		var children = hierarchy.children;
+		var metric;
+		var foundDelimiter;
+		var subMetric;
+		var restOfMetric;
+
+		for (var i=0; i<metricsList.length; i++) {
+			metric = metricsList[i];
+			foundDelimiter = metric.indexOf('_');
+			subMetric = metric.substring(0, foundDelimiter + 1);
+			restOfMetric = metric.substring(foundDelimiter + 2);
+			console.log(metric + ', ' + subMetric + ', ' + restOfMetric);
+		}
+	};
+})*/
+
 .factory('calculateMetrics', ['mockData', 'getFullyQualifiedName', function(mockData, getFullyQualifiedName) {
 	return function(width, height) {
 		var treemap = d3.layout.treemap()
