@@ -16,7 +16,7 @@ angular.module('cs519Assign3.cubeboard', [
 	});
 })
 
-.controller('CubeboardCtrl', ['metricsList', function(metricsList) {
+.controller('CubeboardCtrl', function(metricsList, initFetchMetric) {
 	var context = cubism.context()
 		.step(1000)
 		.size(900);
@@ -24,39 +24,8 @@ angular.module('cs519Assign3.cubeboard', [
 	var horizon = context.horizon()
 		.height(60);
 
-	function fetchMetric(metricName) {
-		var socket = new WebSocket('ws://128.193.36.250:1081/1.0/event/get');
-		var socketReady = false;
-		socket.onopen = function() {
-			socketReady = true;
-		};
-		return context.metric(function(start, stop, step, callback) {
-			var events = [];
-			function fetchMetricWhenReady() {
-				if (socketReady) {
-					socket.send(JSON.stringify({
-						expression: metricName + '(value)',
-						start: start,
-						stop: stop
-					}));
-					socket.onmessage = function(message) {
-						var payload;
-						payload = JSON.parse(message.data);
-						if (message.data === 'null') { //end of transmission
-							callback(null, events);
-						} else {
-							events.push(payload.data.value);
-						}
-					};
-				} else {
-					setTimeout(function() {
-						fetchMetricWhenReady();
-					}, 200);
-				}				
-			}
-			fetchMetricWhenReady();
-		}, metricName);
-	}
+	var fetchMetric = initFetchMetric(context);
+
 
 	d3.select('#cubeboard')
 		.selectAll('.horizon')
@@ -66,7 +35,45 @@ angular.module('cs519Assign3.cubeboard', [
 		.attr('class', 'horizon')
 		.call(horizon);
 
-}])
+})
+
+.factory('initFetchMetric', function() {
+	return function initFetchMetric(context) {
+		return function fetchMetric(metricName) {
+			var socket = new WebSocket('ws://128.193.36.250:1081/1.0/event/get');
+			var socketReady = false;
+			socket.onopen = function() {
+				socketReady = true;
+			};
+			return context.metric(function(start, stop, step, callback) {
+				var events = [];
+				function fetchMetricWhenReady() {
+					if (socketReady) {
+						socket.send(JSON.stringify({
+							expression: metricName + '(value)',
+							start: start,
+							stop: stop
+						}));
+						socket.onmessage = function(message) {
+							var payload;
+							payload = JSON.parse(message.data);
+							if (message.data === 'null') { //end of transmission
+								callback(null, events);
+							} else {
+								events.push(payload.data.value);
+							}
+						};
+					} else {
+						setTimeout(function() {
+							fetchMetricWhenReady();
+						}, 200);
+					}				
+				}
+				fetchMetricWhenReady();
+			}, metricName);
+		};
+	};
+})
 
 .factory('metricsList', function() {
 	return [
@@ -103,7 +110,7 @@ angular.module('cs519Assign3.cubeboard', [
 		var parentsNames;
 
 		if (!childNode) {
-			metricsList.push(prefix)
+			metricsList.push(prefix);
 			return metricsList;
 		}
 
@@ -120,5 +127,5 @@ angular.module('cs519Assign3.cubeboard', [
 		}
 
 		return metricsList;
-	}
+	};
 });

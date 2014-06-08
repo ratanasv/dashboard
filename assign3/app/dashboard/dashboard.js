@@ -61,7 +61,7 @@ angular.module('cs519Assign3.dashboard', [
 		name: 'root',
 		children: [
 			{
-				name: 'pdx',
+				name: 'west',
 				children: [
 					{
 						name: 'apache0',
@@ -92,11 +92,62 @@ angular.module('cs519Assign3.dashboard', [
 								value: 0.2
 							}
 						]
+					},
+					{
+						name: 'nodejs0',
+						children: [
+							{
+								name: 'cpu',
+								value: 0.6
+							},
+							{
+								name: 'memory',
+								value: 0.4
+							},
+							{
+								name: 'util',
+								value: 0.9
+							}
+						]
+					},
+					{
+						name: 'nodejs1',
+						children: [
+							{
+								name: 'cpu',
+								value: 0.6
+							},
+							{
+								name: 'memory',
+								value: 0.4
+							},
+							{
+								name: 'util',
+								value: 0.9
+							}
+						]
+					},
+					{
+						name: 'nodejs2',
+						children: [
+							{
+								name: 'cpu',
+								value: 0.6
+							},
+							{
+								name: 'memory',
+								value: 0.4
+							},
+							{
+								name: 'util',
+								value: 0.9
+							}
+						]
 					}
 				]
 			},
 			{
-				name: 'jfk',
+				name: 'east',
 				children: [
 					{
 						name: 'apache0',
