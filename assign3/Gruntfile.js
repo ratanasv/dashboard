@@ -83,7 +83,7 @@ module.exports = function(grunt) {
 			},
 			source_js: {
 				files: build_config.source_js,
-				tasks: ['jshint:src', 'html2js', 'karma:continuous:run', 'copy:build']
+				tasks: ['jshint:src', 'html2js', 'copy:build']
 			},
 			index: {
 				files: 'index.html',
@@ -113,7 +113,7 @@ module.exports = function(grunt) {
 		});
 		
 	});
-	grunt.registerTask('continuous', ['build', 'karma:continuous', 'watch']);
+	grunt.registerTask('continuous', ['build', 'watch']);
 	grunt.registerTask('build', ['jshint', 'clean',  'html2js', 'karma:unit', 'copy:build', 'assemble']);
 
 };

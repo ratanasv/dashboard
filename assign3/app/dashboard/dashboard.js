@@ -40,6 +40,12 @@ angular.module('cs519Assign3.dashboard', [
 					minValue: 0,
 					maxValue: 100,
 					value: 50
+				},
+				paddingSlider: {
+					name: 'Padding',
+					minValue: 0,
+					maxValue: 20,
+					value: 2
 				}
 			});
 
@@ -213,33 +219,36 @@ angular.module('cs519Assign3.dashboard', [
 	};
 })*/
 
-.factory('calculateMetrics', ['mockData', 'getFullyQualifiedName', function(mockData, getFullyQualifiedName) {
-	return function(width, height) {
+.factory('calculateMetrics', function(mockData, getFullyQualifiedName) {
+	return function(width, height, padding) {
+		padding = parseInt(padding);
+		var TEXT_SIZE = 10;
 		var treemap = d3.layout.treemap()
 			.size([width, height])
 			.sticky(true)
-			.value(function() { return 1.0; });
+			.value(function() { return 1.0; })
+			.padding([TEXT_SIZE*2.0, padding, padding, padding]);
 		var metrics = treemap.nodes(mockData);
 		var metric;
 		var color = d3.scale.category20c();
+		var backgroundColor = d3.scale.linear()
+			.domain([0, 3])
+			.range(['black', 'grey']);
+		
 
 		for (var i=0; i<metrics.length; i++) {
 			metric = metrics[i];
-			metric.style = {
-				left: metric.x + 'px',
-				top: metric.y + 'px',
-				width: metric.dx + 'px',
-				height: metric.dy + 'px',
-				position: 'absolute',
-				background: color(metric.name),
-				border: 'solid ' + (40*Math.pow(0.6, metric.depth)) + 'px white',
-				font: '10px sans-serif',
-				'text-align': 'center',
-				'vertical-align': 'middle',
-				'line-height': metric.dy + 'px'
-			};
+			if (metric.depth === 3) {
+				metric.color = color(metric.name);
+				metric.opacity = 1.0;
+			} else {
+				metric.color = backgroundColor(metric.depth);
+				metric.opacity = 1.0;
+			}		
+			metric.textX = 4.0;
+			metric.textY = TEXT_SIZE*1.2;
 			metric.fullyQualifiedName = getFullyQualifiedName(metric);
 		}
 		return metrics;
 	};
-}]);
+});
