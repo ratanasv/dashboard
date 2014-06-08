@@ -12,14 +12,157 @@ var config = {
 var util = require("util"),
 	cube = require("cube"), // replace with require("cube")
 	options = config;
-var metrics = [
-	'ord_apache_0_cpu', 'ord_apache_0_mem', 'ord_apache_0_incoming', 
-	'ord_apache_1_cpu', 'ord_apache_1_mem',
-	'ord_apache_2_cpu', 'ord_apache_2_mem', 'ord_apache_2_incoming',
-	'pdx_apache_0_cpu', 'pdx_apache_0_mem', 'pdx_apache_0_incoming', 
-	'pdx_nodejs_0_cpu', 'pdx_nodejs_0_mem', 'pdx_nodejs_0_incoming', 'pdx_nodejs_0_outgoing',
-	'pdx_nodejs_1_cpu', 'pdx_nodejs_1_mem', 'pdx_nodejs_1_incoming', 'pdx_nodejs_1_outgoing'
-];
+
+function createMetricsList(root, prefix) {
+	var metricsList = [];
+	var childNode = root.children;
+	var parentsNames;
+
+	if (!childNode) {
+		metricsList.push(prefix);
+		return metricsList;
+	}
+
+
+	for (var i=0; i<childNode.length; i++) {
+		var child = childNode[i];
+		if (prefix === '') {
+			parentsNames = child.name;
+		} else {
+			parentsNames = prefix + '_' + child.name;
+		}
+		var asdf = createMetricsList(child, parentsNames);
+		metricsList = metricsList.concat(asdf);
+	}
+
+	return metricsList;
+};
+
+var metricsTree = {
+	name: 'root',
+	children: [
+		{
+			name: 'west',
+			children: [
+				{
+					name: 'apache0',
+					children: [
+						{
+							name: 'cpu',
+							value: 0.2
+						},
+						{
+							name: 'memory',
+							value: 1.0
+						},
+						{
+							name: 'incoming',
+							value: 0.7
+						}
+					]
+				},
+				{
+					name: 'apache1',
+					children: [
+						{
+							name: 'cpu',
+							value: 0.8
+						},
+						{
+							name: 'memory',
+							value: 0.2
+						}
+					]
+				},
+				{
+					name: 'nodejs0',
+					children: [
+						{
+							name: 'cpu',
+							value: 0.6
+						},
+						{
+							name: 'memory',
+							value: 0.4
+						},
+						{
+							name: 'util',
+							value: 0.9
+						}
+					]
+				},
+				{
+					name: 'nodejs1',
+					children: [
+						{
+							name: 'cpu',
+							value: 0.6
+						},
+						{
+							name: 'memory',
+							value: 0.4
+						},
+						{
+							name: 'util',
+							value: 0.9
+						}
+					]
+				},
+				{
+					name: 'nodejs2',
+					children: [
+						{
+							name: 'cpu',
+							value: 0.6
+						},
+						{
+							name: 'memory',
+							value: 0.4
+						},
+						{
+							name: 'util',
+							value: 0.9
+						}
+					]
+				}
+			]
+		},
+		{
+			name: 'east',
+			children: [
+				{
+					name: 'apache0',
+					children: [
+						{
+							name: 'cpu',
+							value: 0.8
+						},
+						{
+							name: 'memory',
+							value: 0.3
+						}
+					]
+				},
+				{
+					name: 'apache1',
+					children: [
+						{
+							name: 'cpu',
+							value: 0.4
+						},
+						{
+							name: 'memory',
+							value: 0.1
+						}
+					]
+				}
+			]
+		}
+	]
+};
+
+
+var metrics = createMetricsList(metricsTree, '');
 
 util.log("starting emitter");
 var emitter = cube.emitter(options["collector"]);

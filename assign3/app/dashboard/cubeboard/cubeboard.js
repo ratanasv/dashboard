@@ -75,15 +75,8 @@ angular.module('cs519Assign3.cubeboard', [
 	};
 })
 
-.factory('metricsList', function() {
-	return [
-		'ord_apache_0_cpu', 'ord_apache_0_mem', 'ord_apache_0_incoming', 
-		'ord_apache_1_cpu', 'ord_apache_1_mem',
-		'ord_apache_2_cpu', 'ord_apache_2_mem', 'ord_apache_2_incoming',
-		'pdx_apache_0_cpu', 'pdx_apache_0_mem', 'pdx_apache_0_incoming', 
-		'pdx_nodejs_0_cpu', 'pdx_nodejs_0_mem', 'pdx_nodejs_0_incoming', 'pdx_nodejs_0_outgoing',
-		'pdx_nodejs_1_cpu', 'pdx_nodejs_1_mem', 'pdx_nodejs_1_incoming', 'pdx_nodejs_1_outgoing'
-	];
+.factory('metricsList', function(mockData, createMetricsList) {
+	return createMetricsList(mockData, '');
 })
 
 .factory('cubeData', function() {
