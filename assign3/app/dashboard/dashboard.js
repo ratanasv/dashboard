@@ -74,15 +74,15 @@ angular.module('cs519Assign3.dashboard', [
 						children: [
 							{
 								name: 'cpu',
-								value: 0.2
+								metricValue: 0.2
 							},
 							{
 								name: 'memory',
-								value: 1.0
+								metricValue: 1.0
 							},
 							{
 								name: 'incoming',
-								value: 0.7
+								metricValue: 0.7
 							}
 						]
 					},
@@ -91,11 +91,11 @@ angular.module('cs519Assign3.dashboard', [
 						children: [
 							{
 								name: 'cpu',
-								value: 0.8
+								metricValue: 0.8
 							},
 							{
 								name: 'memory',
-								value: 0.2
+								metricValue: 0.2
 							}
 						]
 					},
@@ -104,15 +104,15 @@ angular.module('cs519Assign3.dashboard', [
 						children: [
 							{
 								name: 'cpu',
-								value: 0.6
+								metricValue: 0.6
 							},
 							{
 								name: 'memory',
-								value: 0.4
+								metricValue: 0.4
 							},
 							{
 								name: 'util',
-								value: 0.9
+								metricValue: 0.9
 							}
 						]
 					},
@@ -121,15 +121,15 @@ angular.module('cs519Assign3.dashboard', [
 						children: [
 							{
 								name: 'cpu',
-								value: 0.6
+								metricValue: 0.6
 							},
 							{
 								name: 'memory',
-								value: 0.4
+								metricValue: 0.4
 							},
 							{
 								name: 'util',
-								value: 0.9
+								metricValue: 0.9
 							}
 						]
 					},
@@ -138,15 +138,15 @@ angular.module('cs519Assign3.dashboard', [
 						children: [
 							{
 								name: 'cpu',
-								value: 0.6
+								metricValue: 0.6
 							},
 							{
 								name: 'memory',
-								value: 0.4
+								metricValue: 0.4
 							},
 							{
 								name: 'util',
-								value: 0.9
+								metricValue: 0.9
 							}
 						]
 					}
@@ -160,11 +160,11 @@ angular.module('cs519Assign3.dashboard', [
 						children: [
 							{
 								name: 'cpu',
-								value: 0.8
+								metricValue: 0.8
 							},
 							{
 								name: 'memory',
-								value: 0.3
+								metricValue: 0.3
 							}
 						]
 					},
@@ -173,11 +173,11 @@ angular.module('cs519Assign3.dashboard', [
 						children: [
 							{
 								name: 'cpu',
-								value: 0.4
+								metricValue: 0.4
 							},
 							{
 								name: 'memory',
-								value: 0.1
+								metricValue: 0.1
 							}
 						]
 					}
@@ -230,7 +230,9 @@ angular.module('cs519Assign3.dashboard', [
 			.padding([TEXT_SIZE*2.0, padding, padding, padding]);
 		var metrics = treemap.nodes(mockData);
 		var metric;
-		var color = d3.scale.category20c();
+		var color = d3.scale.linear()
+			.domain([0.0, 0.7, 1.0])
+			.range(['blue', 'yellow', 'red']);
 		var backgroundColor = d3.scale.linear()
 			.domain([0, 3])
 			.range(['black', 'grey']);
@@ -239,14 +241,14 @@ angular.module('cs519Assign3.dashboard', [
 		for (var i=0; i<metrics.length; i++) {
 			metric = metrics[i];
 			if (metric.depth === 3) {
-				metric.color = color(metric.name);
+				metric.color = color(metric.metricValue);
 				metric.opacity = 1.0;
 			} else {
 				metric.color = backgroundColor(metric.depth);
 				metric.opacity = 1.0;
 			}		
 			metric.textX = 4.0;
-			metric.textY = TEXT_SIZE*1.2;
+			metric.textY = TEXT_SIZE*1.3;
 			metric.fullyQualifiedName = getFullyQualifiedName(metric);
 		}
 		return metrics;

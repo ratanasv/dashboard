@@ -51,7 +51,7 @@ angular.module('cs519Assign3.util', [
 
 .directive('sliderWithLabel', function() {
 	return {
-		template: '{{sliderId.name}} <input type="range" min="{{sliderId.minValue}}" max="{{sliderId.maxValue}}" value="{{sliderId.value}}" ng-model="sliderId.value"> is {{sliderId.value}} px.',
+		template: '{{sliderId.name}} <input type="range" min="{{sliderId.minValue}}" max="{{sliderId.maxValue}}" value="{{sliderId.value}}" ng-model="sliderId.value"/> is {{sliderId.value}} px.',
 		restrict: 'E',
 		scope : {
 			sliderId: '='
