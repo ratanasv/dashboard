@@ -2,7 +2,8 @@ angular.module('cs519Assign3.dashboard', [
 	'templates-app',
 	'cs519Assign3.util',
 	'ui.router',
-	'cs519Assign3.cubeboard'
+	'cs519Assign3.cubeboard',
+	'ui.bootstrap'
 ])
 
 .config(function($stateProvider, $urlRouterProvider) {
@@ -18,43 +19,46 @@ angular.module('cs519Assign3.dashboard', [
 	});
 })
 
-.controller('DashboardCtrl', 
-	['$scope', 'sliderInitHelper', 'calculateMetrics',
-		function($scope, sliderInitHelper, calculateMetrics) {
+.controller('DashboardCtrl', function($scope, sliderInitHelper, calculateMetrics, $modal) {
 
-			sliderInitHelper($scope, {
-				widthSlider: {
-					name: 'Width Slider',
-					minValue: 0,
-					maxValue: 1200,
-					value: 800
-				},
-				heightSlider: {
-					name: 'Height Slider',
-					minValue: 0,
-					maxValue: 2000,
-					value: 600
-				},
-				paddingSlider: {
-					name: 'Padding',
-					minValue: 0,
-					maxValue: 20,
-					value: 2
-				}
-			});
-
-			$scope.getMetrics = calculateMetrics;
-
-			$scope.getBigStyle = function() {
-				return {
-					position: 'relative',
-					width: $scope.widthSlider.value + 'px',
-					height: $scope.heightSlider.value + 'px'
-				};
-			};
+	sliderInitHelper($scope, {
+		widthSlider: {
+			name: 'Width Slider',
+			minValue: 0,
+			maxValue: 1200,
+			value: 800
+		},
+		heightSlider: {
+			name: 'Height Slider',
+			minValue: 0,
+			maxValue: 2000,
+			value: 600
+		},
+		paddingSlider: {
+			name: 'Padding',
+			minValue: 0,
+			maxValue: 20,
+			value: 2
 		}
-	]
-)
+	});
+
+	$scope.getMetrics = calculateMetrics;
+
+	$scope.getBigStyle = function() {
+		return {
+			position: 'relative',
+			width: $scope.widthSlider.value + 'px',
+			height: $scope.heightSlider.value + 'px'
+		};
+	};
+
+	$scope.onMouseOver = function(metric) {
+		if (metric.children) { //node is a non-leaf one.
+			return;
+		}
+		
+	};
+})
 
 .factory('mockData', function() {
 	return {
