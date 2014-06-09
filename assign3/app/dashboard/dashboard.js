@@ -35,12 +35,6 @@ angular.module('cs519Assign3.dashboard', [
 					maxValue: 2000,
 					value: 600
 				},
-				sizeSlider: {
-					name: 'Size Slider',
-					minValue: 0,
-					maxValue: 100,
-					value: 50
-				},
 				paddingSlider: {
 					name: 'Padding',
 					minValue: 0,
