@@ -230,9 +230,9 @@ angular.module('cs519Assign3.dashboard', [
 			.padding([TEXT_SIZE*2.0, padding, padding, padding]);
 		var metrics = treemap.nodes(mockData);
 		var metric;
-		var color = d3.scale.linear()
+		var color = d3.scale.ordinal()
 			.domain([0.0, 0.7, 1.0])
-			.range(['blue', 'yellow', 'red']);
+			.range(['#009900', '#FFFF33', '#CC0000']);
 		var backgroundColor = d3.scale.linear()
 			.domain([0, 3])
 			.range(['black', 'grey']);
