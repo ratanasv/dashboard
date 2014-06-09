@@ -5,8 +5,18 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-html2js');
 	grunt.loadNpmTasks('grunt-karma');
 	grunt.loadNpmTasks('grunt-contrib-watch');
+	grunt.loadNpmTasks('grunt-contrib-less');
 
 	var build_config = require('./build_config.js');
+	var css_target = build_config.build_dir + 'vir.css';
+
+	var filesConfig = {};
+	filesConfig[css_target] = build_config.source_less;
+	var lessConfig = {
+		build: {
+			files: filesConfig
+		}
+	};
 
 	var taskConfig = {
 		clean: [
@@ -92,9 +102,15 @@ module.exports = function(grunt) {
 			tpl: {
 				files: build_config.source_html,
 				tasks: ['html2js']
+			},
+			less: {
+				files: build_config.source_less,
+				tasks: ['less:build']
 			}
-		}
+		},
+		less: lessConfig
 	};
+	
 
 	grunt.initConfig(taskConfig);
 
@@ -114,7 +130,7 @@ module.exports = function(grunt) {
 		
 	});
 	grunt.registerTask('continuous', ['build', 'watch']);
-	grunt.registerTask('build', ['jshint', 'clean',  'html2js', 'karma:unit', 'copy:build', 'assemble']);
+	grunt.registerTask('build', ['jshint', 'clean',  'html2js', 'karma:unit', 'less:build', 'copy:build', 'assemble']);
 
 };
 
