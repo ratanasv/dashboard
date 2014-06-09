@@ -2,9 +2,10 @@
 <slider-with-label slider-id='widthSlider'></slider-with-label>
 <slider-with-label slider-id='paddingSlider'></slider-with-label>
 <br>
+
 <svg ng-attr-width='{{widthSlider.value}}' ng-attr-height='{{heightSlider.value}}'>
-<g ng-attr-transform='translate({{metric.x}}, {{metric.y}})' ng-repeat='metric in getMetrics(widthSlider.value, heightSlider.value, paddingSlider.value)'>
-	<rect ng-attr-width='{{metric.dx}}' ng-attr-height='{{metric.dy}}' ng-attr-style='fill: {{metric.color}}' ng-attr-fill-opacity='{{metric.opacity}}' stroke='white' stroke-opacity='1.0'ng-attr-vir='{{metric.fullyQualifiedName}}' ng-mouseover='onMouseOver(metric)'>
+<g ng-attr-transform='translate({{metric.x}}, {{metric.y}})' ng-repeat='metric in calculateMetrics(widthSlider.value, heightSlider.value, paddingSlider.value)' class='vir-fade-in'>
+	<rect ng-attr-width='{{metric.dx}}' ng-attr-height='{{metric.dy}}' ng-attr-style='fill: {{metric.color}}' ng-attr-fill-opacity='{{metric.opacity}}' stroke='white' stroke-opacity='1.0'ng-attr-vir='{{metric.fullyQualifiedName}}' ng-mouseover='toggleMouseOver(metric)' class='vir-fade-in'>
 	</rect>
 	<text ng-attr-x='{{metric.textX}}' ng-attr-y='{{metric.textY}}' ng-show='{{metric.depth !== 3}}' font-size='12px' fill='white' font-family='Helvetica'>
 		{{metric.name}}

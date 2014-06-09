@@ -3,7 +3,8 @@ angular.module('cs519Assign3.dashboard', [
 	'cs519Assign3.util',
 	'ui.router',
 	'cs519Assign3.cubeboard',
-	'ui.bootstrap'
+	'ui.bootstrap',
+	'ngAnimate'
 ])
 
 .config(function($stateProvider, $urlRouterProvider) {
@@ -19,7 +20,7 @@ angular.module('cs519Assign3.dashboard', [
 	});
 })
 
-.controller('DashboardCtrl', function($scope, sliderInitHelper, calculateMetrics, $modal) {
+.controller('DashboardCtrl', function($scope, sliderInitHelper, initCalculateMetrics, mockData) {
 
 	sliderInitHelper($scope, {
 		widthSlider: {
@@ -42,7 +43,7 @@ angular.module('cs519Assign3.dashboard', [
 		}
 	});
 
-	$scope.getMetrics = calculateMetrics;
+	$scope.calculateMetrics = initCalculateMetrics(mockData);
 
 	$scope.getBigStyle = function() {
 		return {
@@ -57,6 +58,11 @@ angular.module('cs519Assign3.dashboard', [
 			return;
 		}
 		
+	};
+
+	$scope.toggleMouseOver = function(metric) {
+		metric.isMouseOver = !(metric.isMouseOver);
+		console.log(metric.isMouseOver);
 	};
 })
 
@@ -217,38 +223,41 @@ angular.module('cs519Assign3.dashboard', [
 	};
 })*/
 
-.factory('calculateMetrics', function(mockData, getFullyQualifiedName) {
-	return function(width, height, padding) {
-		padding = parseInt(padding);
-		var TEXT_SIZE = 10;
-		var treemap = d3.layout.treemap()
-			.size([width, height])
-			.sticky(true)
-			.value(function() { return 1.0; })
-			.padding([TEXT_SIZE*2.0, padding, padding, padding]);
-		var metrics = treemap.nodes(mockData);
-		var metric;
-		var color = d3.scale.ordinal()
-			.domain([0.0, 0.7, 1.0])
-			.range(['#009900', '#FFFF33', '#CC0000']);
-		var backgroundColor = d3.scale.linear()
-			.domain([0, 3])
-			.range(['black', 'grey']);
-		
+.factory('initCalculateMetrics', function(getFullyQualifiedName) {
+	return function initCalculateMetrics(data) {
+		return function calculateMetrics(width, height, padding) {
+			padding = parseInt(padding);
+			var TEXT_SIZE = 10;
+			var treemap = d3.layout.treemap()
+				.size([width, height])
+				.sticky(true)
+				.value(function() { return 1.0; })
+				.padding([TEXT_SIZE*2.0, padding, padding, padding]);
+			var metrics = treemap.nodes(data);
+			var metric;
+			var color = d3.scale.ordinal()
+				.domain([0.0, 0.7, 1.0])
+				.range(['#009900', '#FFFF33', '#CC0000']);
+			var backgroundColor = d3.scale.linear()
+				.domain([0, 3])
+				.range(['black', 'grey']);
+			
 
-		for (var i=0; i<metrics.length; i++) {
-			metric = metrics[i];
-			if (metric.depth === 3) {
-				metric.color = color(metric.metricValue);
-				metric.opacity = 1.0;
-			} else {
-				metric.color = backgroundColor(metric.depth);
-				metric.opacity = 1.0;
-			}		
-			metric.textX = 4.0;
-			metric.textY = TEXT_SIZE*1.3;
-			metric.fullyQualifiedName = getFullyQualifiedName(metric);
-		}
-		return metrics;
+			for (var i=0; i<metrics.length; i++) {
+				metric = metrics[i];
+				if (metric.depth === 3) {
+					metric.color = color(metric.metricValue);
+					metric.opacity = 1.0;
+				} else {
+					metric.color = backgroundColor(metric.depth);
+					metric.opacity = 1.0;
+				}		
+				metric.textX = 4.0;
+				metric.textY = TEXT_SIZE*1.3;
+				metric.fullyQualifiedName = getFullyQualifiedName(metric);
+			}
+			return metrics;
+		};
 	};
 });
+
