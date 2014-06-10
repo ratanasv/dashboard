@@ -20,7 +20,7 @@ angular.module('cs519Assign3.dashboard', [
 	});
 })
 
-.controller('DashboardCtrl', function($scope, sliderInitHelper, initCalculateMetrics, mockData, computeCubeboardStyle) {
+.controller('DashboardCtrl', function($scope, sliderInitHelper, initCalculateMetrics, mockData) {
 
 	sliderInitHelper($scope, {
 		widthSlider: {
@@ -69,7 +69,13 @@ angular.module('cs519Assign3.dashboard', [
 		metric.isMouseOver = false;
 	};
 
-	$scope.computeCubeboardStyle = computeCubeboardStyle;
+	$scope.onMetricClick = function(metric) {
+		if (metric.children) {
+			return;
+		}
+
+		$scope.selectedMetric = metric;
+	};
 })
 
 .factory('mockData', function() {
@@ -263,23 +269,6 @@ angular.module('cs519Assign3.dashboard', [
 				metric.fullyQualifiedName = getFullyQualifiedName(metric);
 			}
 			return metrics;
-		};
-	};
-})
-
-.factory('computeCubeboardStyle', function() {
-	return function computeCubeboardStyle(metric) {
-		if (!metric) {
-			return {
-				position: 'relative',
-				opacity: 0
-			};
-		}
-		return {
-			position: 'absolute',
-			left: (metric.x + (metric.dx/2.0)) + 'px',
-			top: (metric.y + (metric.dy/1.2)) + 'px',
-			'background-color': 'white'
 		};
 	};
 });
