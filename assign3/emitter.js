@@ -42,22 +42,22 @@ var metricsTree = {
 	name: 'root',
 	children: [
 		{
-			name: 'west',
+			name: 'west_coast',
 			children: [
 				{
 					name: 'apache0',
 					children: [
 						{
 							name: 'cpu',
-							value: 0.2
+							metricValue: 0.2
 						},
 						{
 							name: 'memory',
-							value: 1.0
+							metricValue: 1.0
 						},
 						{
 							name: 'incoming',
-							value: 0.7
+							metricValue: 0.7
 						}
 					]
 				},
@@ -66,11 +66,11 @@ var metricsTree = {
 					children: [
 						{
 							name: 'cpu',
-							value: 0.8
+							metricValue: 0.8
 						},
 						{
 							name: 'memory',
-							value: 0.2
+							metricValue: 0.2
 						}
 					]
 				},
@@ -79,15 +79,15 @@ var metricsTree = {
 					children: [
 						{
 							name: 'cpu',
-							value: 0.6
+							metricValue: 0.6
 						},
 						{
 							name: 'memory',
-							value: 0.4
+							metricValue: 0.4
 						},
 						{
 							name: 'util',
-							value: 0.9
+							metricValue: 0.9
 						}
 					]
 				},
@@ -96,15 +96,15 @@ var metricsTree = {
 					children: [
 						{
 							name: 'cpu',
-							value: 0.6
+							metricValue: 0.6
 						},
 						{
 							name: 'memory',
-							value: 0.4
+							metricValue: 0.4
 						},
 						{
 							name: 'util',
-							value: 0.9
+							metricValue: 0.9
 						}
 					]
 				},
@@ -113,33 +113,129 @@ var metricsTree = {
 					children: [
 						{
 							name: 'cpu',
-							value: 0.6
+							metricValue: 0.6
 						},
 						{
 							name: 'memory',
-							value: 0.4
+							metricValue: 0.4
 						},
 						{
 							name: 'util',
-							value: 0.9
+							metricValue: 0.9
+						}
+					]
+				},
+				{
+					name: 'nodejs3',
+					children: [
+						{
+							name: 'cpu',
+							metricValue: 0.6
+						},
+						{
+							name: 'memory',
+							metricValue: 0.4
+						},
+						{
+							name: 'util',
+							metricValue: 0.9
+						}
+					]
+				},
+				{
+					name: 'nodejs4',
+					children: [
+						{
+							name: 'cpu',
+							metricValue: 0.2
+						},
+						{
+							name: 'memory',
+							metricValue: 0.1
+						},
+						{
+							name: 'util',
+							metricValue: 0.2
+						},
+						{
+							name: '200',
+							metricValue: 0.2
+						},
+						{
+							name: '300',
+							metricValue: 0.8
+						}
+					]
+				},
+				{
+					name: 'seattle',
+					children: [
+						{
+							name: 'rack0',
+							children: [
+								{
+									name: 'servlet0',
+									children: [
+										{
+											name: 'cpu',
+											metricValue: 0.2
+										},
+										{
+											name: 'memory',
+											metricValue: 0.5
+										}
+									]
+								},
+								{
+									name: 'servlet1',
+									children: [
+										{
+											name: 'cpu',
+											metricValue: 0.6
+										},
+										{
+											name: 'memory',
+											metricValue: 0.5
+										}
+									]
+								}
+							]
+						},
+						{
+							name: 'rack1',
+							children: [
+								{
+									name: 'servlet0',
+									children: [
+										{
+											name: 'cpu',
+											metricValue: 0.2
+										},
+										{
+											name: 'memory',
+											metricValue: 0.5
+										}
+									]
+								}
+							]
 						}
 					]
 				}
 			]
 		},
 		{
-			name: 'east',
+			name: 'east_coast',
 			children: [
 				{
 					name: 'apache0',
 					children: [
 						{
 							name: 'cpu',
-							value: 0.8
+							metricValue: 0.8
 						},
 						{
 							name: 'memory',
-							value: 0.3
+							metricValue: 0.3
 						}
 					]
 				},
@@ -148,11 +244,126 @@ var metricsTree = {
 					children: [
 						{
 							name: 'cpu',
-							value: 0.4
+							metricValue: 0.4
 						},
 						{
 							name: 'memory',
-							value: 0.1
+							metricValue: 0.1
+						}
+					]
+				},
+				{
+					name: 'apache2',
+					children: [
+						{
+							name: 'cpu',
+							metricValue: 0.1
+						},
+						{
+							name: 'memory',
+							metricValue: 0.1
+						}
+					]
+				},
+				{
+					name: 'apache3',
+					children: [
+						{
+							name: 'cpu',
+							metricValue: 0.1
+						},
+						{
+							name: 'memory',
+							metricValue: 0.2
+						},
+						{
+							name: 'network',
+							metricValue: 1.0
+						},
+						{
+							name: '500',
+							metricValue: 0.1
+						}
+					]
+				},
+				{
+					name: 'apache4',
+					children: [
+						{
+							name: 'cpu',
+							metricValue: 0.4
+						},
+						{
+							name: 'memory',
+							metricValue: 0.9
+						},
+						{
+							name: 'network',
+							metricValue: 0.1
+						},
+						{
+							name: '400',
+							metricValue: 0.8
+						},
+						{
+							name: '500',
+							metricValue: 0.1
+						}
+					]
+				},
+				{
+					name: 'new_york',
+					children: [
+						{
+							name: 'api0',
+							children: [
+								{
+									name: 'cpu',
+									metricValue: 0.2
+								},
+								{
+									name: 'memory',
+									metricValue: 0.2
+								},
+								{
+									name: 'network',
+									metricValue: 0.8
+								}
+							]
+						},
+						{
+							name: 'api1',
+							children: [
+								{
+									name: 'cpu',
+									metricValue: 0.1
+								},
+								{
+									name: 'memory',
+									metricValue: 0.1
+								},
+								{
+									name: 'network',
+									metricValue: 0.1
+								}
+							]
+						},
+						{
+							name: 'api2',
+							children: [
+								{
+									name: 'cpu',
+									metricValue: 0.1
+								},
+								{
+									name: 'memory',
+									metricValue: 0.1
+								},
+								{
+									name: 'network',
+									metricValue: 0.1
+								}
+							]
 						}
 					]
 				}
