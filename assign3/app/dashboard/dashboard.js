@@ -83,7 +83,7 @@ angular.module('cs519Assign3.dashboard', [
 		name: 'root',
 		children: [
 			{
-				name: 'west',
+				name: 'west_coast',
 				children: [
 					{
 						name: 'apache0',
@@ -165,11 +165,107 @@ angular.module('cs519Assign3.dashboard', [
 								metricValue: 0.9
 							}
 						]
+					},
+					{
+						name: 'nodejs3',
+						children: [
+							{
+								name: 'cpu',
+								metricValue: 0.6
+							},
+							{
+								name: 'memory',
+								metricValue: 0.4
+							},
+							{
+								name: 'util',
+								metricValue: 0.9
+							}
+						]
+					},
+					{
+						name: 'nodejs4',
+						children: [
+							{
+								name: 'cpu',
+								metricValue: 0.2
+							},
+							{
+								name: 'memory',
+								metricValue: 0.1
+							},
+							{
+								name: 'util',
+								metricValue: 0.2
+							},
+							{
+								name: '200',
+								metricValue: 0.2
+							},
+							{
+								name: '300',
+								metricValue: 0.8
+							}
+						]
+					},
+					{
+						name: 'seattle',
+						children: [
+							{
+								name: 'rack0',
+								children: [
+									{
+										name: 'servlet0',
+										children: [
+											{
+												name: 'cpu',
+												metricValue: 0.2
+											},
+											{
+												name: 'memory',
+												metricValue: 0.5
+											}
+										]
+									},
+									{
+										name: 'servlet1',
+										children: [
+											{
+												name: 'cpu',
+												metricValue: 0.6
+											},
+											{
+												name: 'memory',
+												metricValue: 0.5
+											}
+										]
+									}
+								]
+							},
+							{
+								name: 'rack1',
+								children: [
+									{
+										name: 'servlet0',
+										children: [
+											{
+												name: 'cpu',
+												metricValue: 0.2
+											},
+											{
+												name: 'memory',
+												metricValue: 0.5
+											}
+										]
+									}
+								]
+							}
+						]
 					}
 				]
 			},
 			{
-				name: 'east',
+				name: 'east_coast',
 				children: [
 					{
 						name: 'apache0',
@@ -194,6 +290,121 @@ angular.module('cs519Assign3.dashboard', [
 							{
 								name: 'memory',
 								metricValue: 0.1
+							}
+						]
+					},
+					{
+						name: 'apache2',
+						children: [
+							{
+								name: 'cpu',
+								metricValue: 0.1
+							},
+							{
+								name: 'memory',
+								metricValue: 0.1
+							}
+						]
+					},
+					{
+						name: 'apache3',
+						children: [
+							{
+								name: 'cpu',
+								metricValue: 0.1
+							},
+							{
+								name: 'memory',
+								metricValue: 0.2
+							},
+							{
+								name: 'network',
+								metricValue: 1.0
+							},
+							{
+								name: '500',
+								metricValue: 0.1
+							}
+						]
+					},
+					{
+						name: 'apache4',
+						children: [
+							{
+								name: 'cpu',
+								metricValue: 0.4
+							},
+							{
+								name: 'memory',
+								metricValue: 0.9
+							},
+							{
+								name: 'network',
+								metricValue: 0.1
+							},
+							{
+								name: '400',
+								metricValue: 0.8
+							},
+							{
+								name: '500',
+								metricValue: 0.1
+							}
+						]
+					},
+					{
+						name: 'new_york',
+						children: [
+							{
+								name: 'api0',
+								children: [
+									{
+										name: 'cpu',
+										metricValue: 0.2
+									},
+									{
+										name: 'memory',
+										metricValue: 0.2
+									},
+									{
+										name: 'network',
+										metricValue: 0.8
+									}
+								]
+							},
+							{
+								name: 'api1',
+								children: [
+									{
+										name: 'cpu',
+										metricValue: 0.1
+									},
+									{
+										name: 'memory',
+										metricValue: 0.1
+									},
+									{
+										name: 'network',
+										metricValue: 0.1
+									}
+								]
+							},
+							{
+								name: 'api2',
+								children: [
+									{
+										name: 'cpu',
+										metricValue: 0.1
+									},
+									{
+										name: 'memory',
+										metricValue: 0.1
+									},
+									{
+										name: 'network',
+										metricValue: 0.1
+									}
+								]
 							}
 						]
 					}
@@ -247,9 +458,9 @@ angular.module('cs519Assign3.dashboard', [
 				.padding([TEXT_SIZE*2.0, padding, padding, padding]);
 			var metrics = treemap.nodes(data);
 			var metric;
-			var color = d3.scale.ordinal()
+			var color = d3.scale.linear()
 				.domain([0.0, 0.7, 1.0])
-				.range(['#009900', '#FFFF33', '#CC0000']);
+				.range(['green', 'yellow', 'red']);
 			var backgroundColor = d3.scale.linear()
 				.domain([0, 3])
 				.range(['black', 'grey']);
@@ -257,7 +468,7 @@ angular.module('cs519Assign3.dashboard', [
 
 			for (var i=0; i<metrics.length; i++) {
 				metric = metrics[i];
-				if (metric.depth === 3) {
+				if (!metric.children) {
 					metric.color = color(metric.metricValue);
 					metric.opacity = 1.0;
 				} else {
