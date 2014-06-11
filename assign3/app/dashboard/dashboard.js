@@ -20,7 +20,7 @@ angular.module('cs519Assign3.dashboard', [
 	});
 })
 
-.controller('DashboardCtrl', function($scope, sliderInitHelper, initCalculateMetrics, mockData) {
+.controller('DashboardCtrl', function($scope, sliderInitHelper, initCalculateMetrics, mockData, attachRealtimeData) {
 
 	sliderInitHelper($scope, {
 		widthSlider: {
@@ -43,6 +43,7 @@ angular.module('cs519Assign3.dashboard', [
 		}
 	});
 
+	attachRealtimeData($scope, mockData, '');
 	$scope.calculateMetrics = initCalculateMetrics(mockData);
 
 	$scope.getBigStyle = function() {
@@ -76,6 +77,7 @@ angular.module('cs519Assign3.dashboard', [
 
 		$scope.selectedMetric = metric;
 	};
+
 })
 
 .factory('mockData', function() {
@@ -485,6 +487,48 @@ angular.module('cs519Assign3.dashboard', [
 				metric.fullyQualifiedName = getFullyQualifiedName(metric);
 			}
 			return metrics;
+		};
+	};
+})
+
+.factory('attachRealtimeData', function() {
+	return function attachRealtimeData($scope, node, prefix) {
+		if (node.children) {
+			if (node.name === 'root') {
+				return node.children.forEach(function(child) {
+					attachRealtimeData($scope, child, '');
+				});
+			} else {
+				return node.children.forEach(function(child) {
+					attachRealtimeData($scope, child, prefix + node.name + '_');
+				});
+			}
+		}
+
+		var fullyQualifiedName = prefix + node.name;
+		var socket = new WebSocket('ws://128.193.36.250:1081/1.0/event/get');
+		
+		socket.onopen = function() {
+			var mostRecentValue;
+			setInterval(function() {
+				var now = new Date().getTime();
+				socket.send(JSON.stringify({
+					expression: fullyQualifiedName + '(value)',
+					start: now - 1000,
+					stop: now
+				}));
+			}, 2000);
+			
+			socket.onmessage = function(message) {
+				var payload;
+				payload = JSON.parse(message.data);
+				if (message.data === 'null') { //end of transmission
+					node.metricValue = mostRecentValue;
+					$scope.$apply();
+				} else {
+					mostRecentValue = payload.data.value;
+				}
+			};
 		};
 	};
 });
