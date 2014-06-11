@@ -419,6 +419,11 @@ angular.module('cs519Assign3.dashboard', [
 		if (!node.parent) {
 			return node.name;
 		}
+
+		if (node.parent.name === 'root') {
+			return node.name;
+		}
+
 		return getFullyQualifiedNameRecursive(node.parent) + '.' + node.name;
 	};
 })
