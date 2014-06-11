@@ -39,7 +39,7 @@ angular.module('cs519Assign3.dashboard', [
 			name: 'Padding',
 			minValue: 0,
 			maxValue: 20,
-			value: 2
+			value: 6
 		}
 	});
 
