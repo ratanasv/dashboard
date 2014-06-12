@@ -16,7 +16,7 @@ angular.module('cs519Assign3.cubeboard', [
 	});
 })
 
-.controller('CubeboardCtrl', function($scope, initFetchMetric, metricsList) {
+.controller('CubeboardCtrl', function($scope, initFetchMetric) {
 	var context = cubism.context()
 		.step(1000)
 		.size(900);
@@ -26,16 +26,26 @@ angular.module('cs519Assign3.cubeboard', [
 
 	var fetchMetric = initFetchMetric(context);
 
-	var data = metricsList.map(fetchMetric);
 
+	$scope.$watch('selectedMetric', function() {
+		if (!$scope.selectedMetric) {
+			return;
+		}
+		var metricsList = [$scope.selectedMetric.fullyQualifiedName.replace(/\./g, '_')];
+		var data = metricsList.map(fetchMetric);
+		var myNode = document.getElementById('cubeboard');
+		while (myNode.firstChild) {
+			myNode.removeChild(myNode.firstChild);
+		}
 
-	d3.select('#cubeboard')
-		.selectAll('.horizon')
-		.data(data)
-		.enter()
-		.append('div')
-		.attr('class', 'horizon')
-		.call(horizon);
+		d3.select('#cubeboard')
+			.selectAll('.horizon')
+			.data(data)
+			.enter()
+			.append('div')
+			.attr('class', 'horizon')
+			.call(horizon);
+	});
 
 })
 
