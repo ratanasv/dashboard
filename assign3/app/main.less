@@ -46,6 +46,42 @@
 	left: 0px;
 	width: 1400px;
 	height: 800px;
-	background-color: grey;
+	background-fill: grey;
 	opacity: 0.8;
+}
+
+.healthy-add, .healthy-remove,
+.well-add, .well-remove,
+.sick-add, .sick-remove,
+.coma-add, .coma-remove,
+.dead-add, .dead-remove {
+  -webkit-transition:all linear 0.5s;
+  -moz-transition:all linear 0.5s;
+  -o-transition:all linear 0.5s;
+  transition:all linear 0.5s;
+}
+
+.healthy,
+.healthy-add.healthy-add-active {
+	fill: #1f9f22
+}
+
+.well,
+.well-add.well-add-active {
+	fill: #69b622
+}
+
+.sick,
+.sick-add.sick-add-active {
+	fill: #cbce25
+}
+
+.coma,
+.coma-add.coma-add-active {
+	fill: #e58828
+}
+
+.dead,
+.dead-add.dead-add-active {
+	fill: #fc2b2b
 }

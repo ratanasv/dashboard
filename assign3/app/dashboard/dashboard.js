@@ -452,8 +452,16 @@ angular.module('cs519Assign3.dashboard', [
 		}
 	};
 })*/
+.factory('calculateClass', function() {
+	var quantize = d3.scale.quantize()
+		.domain([0, 0.3, 0.6, 0.8, 1.0])
+		.range(['healthy', 'well', 'sick', 'coma', 'dead']);
+	return function calculateClass(value) {
+		return quantize(value);
+	};
+})
 
-.factory('initCalculateMetrics', function(getFullyQualifiedName) {
+.factory('initCalculateMetrics', function(getFullyQualifiedName, calculateClass) {
 	return function initCalculateMetrics(data) {
 		return function calculateMetrics(width, height, padding) {
 			padding = parseInt(padding);
@@ -476,11 +484,9 @@ angular.module('cs519Assign3.dashboard', [
 			for (var i=0; i<metrics.length; i++) {
 				metric = metrics[i];
 				if (!metric.children) {
-					metric.color = color(metric.metricValue);
-					metric.opacity = 1.0;
+					metric.class = calculateClass(metric.metricValue);
 				} else {
-					metric.color = backgroundColor(metric.depth);
-					metric.opacity = 1.0;
+					metric.fill = backgroundColor(metric.depth);
 				}		
 				metric.textX = 4.0;
 				metric.textY = TEXT_SIZE*1.3;
@@ -517,7 +523,7 @@ angular.module('cs519Assign3.dashboard', [
 					start: now - 1000,
 					stop: now
 				}));
-			}, 2000);
+			}, 1000);
 			
 			socket.onmessage = function(message) {
 				var payload;
