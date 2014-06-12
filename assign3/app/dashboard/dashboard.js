@@ -524,7 +524,7 @@ angular.module('cs519Assign3.dashboard', [
 					start: now - 1000,
 					stop: now
 				}));
-			}, 1000);
+			}, 2000);
 			
 			socket.onmessage = function(message) {
 				var payload;
