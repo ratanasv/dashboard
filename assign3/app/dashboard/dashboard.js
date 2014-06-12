@@ -45,6 +45,7 @@ angular.module('cs519Assign3.dashboard', [
 
 	attachRealtimeData($scope, mockData, '');
 	$scope.calculateMetrics = initCalculateMetrics(mockData);
+	$scope.selectedMetric = null;
 
 	$scope.getBigStyle = function() {
 		return {

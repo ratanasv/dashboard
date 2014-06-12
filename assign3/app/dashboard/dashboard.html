@@ -17,9 +17,8 @@
 	</g>
 </g>
 </svg>
-
-<div ng-show='selectedMetric' class='fixed-middle vir-fade-in' ng-click='selectedMetric = null'>
+<div ng-show='selectedMetric !== null' class='fixed-middle seethru vir-fade-in' ng-click='selectedMetric = null'>
 	
 </div>
-
-<div style='position: relative' ui-view='cubeboard'></div>
+<div ng-show='selectedMetric !== null' class='fixed-middle' ui-view='cubeboard' style='pointer-events:none'>
+</div>

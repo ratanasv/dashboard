@@ -16,7 +16,7 @@ angular.module('cs519Assign3.cubeboard', [
 	});
 })
 
-.controller('CubeboardCtrl', function(metricsList, initFetchMetric) {
+.controller('CubeboardCtrl', function($scope, initFetchMetric, metricsList) {
 	var context = cubism.context()
 		.step(1000)
 		.size(900);
@@ -26,10 +26,12 @@ angular.module('cs519Assign3.cubeboard', [
 
 	var fetchMetric = initFetchMetric(context);
 
+	var data = metricsList.map(fetchMetric);
+
 
 	d3.select('#cubeboard')
 		.selectAll('.horizon')
-		.data(metricsList.map(fetchMetric))
+		.data(data)
 		.enter()
 		.append('div')
 		.attr('class', 'horizon')
@@ -77,23 +79,6 @@ angular.module('cs519Assign3.cubeboard', [
 
 .factory('metricsList', function(mockData, createMetricsList) {
 	return createMetricsList(mockData, '');
-})
-
-.factory('cubeData', function() {
-	return function(context, socket, name) {
-		return context.metric(function(start, stop, step, callback) {
-			socket.send(JSON.stringify({
-				expression: 'cs519(value)',
-				start: start,
-				stop: stop
-			}));
-			socket.onmessage = function(message) {
-				if (message.data) {
-					callback(null, message.data);
-				}
-			};
-		}, name);
-	};
 })
 
 .factory('createMetricsList', function() {
