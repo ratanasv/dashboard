@@ -31,12 +31,18 @@ angular.module('cs519Assign3.cubeboard', [
 		if (!$scope.selectedMetric) {
 			return;
 		}
-		var metricsList = [$scope.selectedMetric.fullyQualifiedName.replace(/\./g, '_')];
-		var data = metricsList.map(fetchMetric);
+		var metricsList = [];
+		var siblings = $scope.selectedMetric.parent.children;
 		var myNode = document.getElementById('cubeboard');
 		while (myNode.firstChild) {
 			myNode.removeChild(myNode.firstChild);
 		}
+
+		siblings.forEach(function(metric) {
+			metricsList.push(metric.fullyQualifiedName.replace(/\./g, '_'));
+		});
+
+		var data = metricsList.map(fetchMetric);
 
 		d3.select('#cubeboard')
 			.selectAll('.horizon')
