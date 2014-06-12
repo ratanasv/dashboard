@@ -38,6 +38,10 @@ function createMetricsList(root, prefix) {
 	return metricsList;
 };
 
+function randomArbitrary(min, max) {
+    return Math.random() * (max - min) + min;
+}
+
 var metricsTree = {
 	name: 'root',
 	children: [
