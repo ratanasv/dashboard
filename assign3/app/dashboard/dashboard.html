@@ -7,18 +7,23 @@
 <g ng-attr-transform='translate({{metric.x}}, {{metric.y}})' ng-repeat='metric in calculateMetrics(widthSlider.value, heightSlider.value, paddingSlider.value)' class='vir-fade-in'>
 	<rect ng-attr-width='{{metric.dx}}' ng-attr-height='{{metric.dy}}' ng-attr-fill='{{metric.fill}}' ng-attr-fill-opacity='{{metric.opacity}}' stroke='white' stroke-opacity='1.0' ng-mouseover='onMetricOver(metric)' ng-mouseleave='onMetricLeave(metric)' ng-click='onMetricClick(metric)' ng-class='metric.class'>
 	</rect>
+	<!-- Labels for the parents -->
 	<text ng-attr-x='{{metric.textX}}' ng-attr-y='{{metric.textY}}' ng-show='metric.children' font-size='12px' fill='white' font-family='Helvetica'>
 		{{metric.name}}
 	</text>
+	<!-- Show when mouseover -->
 	<g ng-attr-transform='translate({{metric.dx/3.0}}, {{metric.dy/1.5}})' class='vir-fade-in' ng-show='metric.isMouseOver'>
+
 		<text font-size='16px' font-family='Helvetica' style='pointer-events:none'>
 			{{metric.fullyQualifiedName}} {{metric.metricValue}}
 		</text>
 	</g>
 </g>
 </svg>
+<!-- Grey background for cubeboard -->
 <div ng-show='selectedMetric !== null' class='fixed-middle seethru vir-fade-in' ng-click='selectedMetric = null'>
 	
 </div>
+<!-- Cubeboard itself -->
 <div ng-show='selectedMetric !== null' class='fixed-middle' ui-view='cubeboard' style='pointer-events:none'>
 </div>
