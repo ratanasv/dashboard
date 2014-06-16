@@ -14,13 +14,19 @@
 	<!-- Show when mouseover -->
 	<g ng-attr-transform='translate({{metric.dx + 2}}, 0)' class='vir-fade-in' ng-show='metric.isMouseOver' style='pointer-events:none'>
 
-		<rect width='70' height='50' rx='15' ry='15' fill='white' stroke='black'>
+		<rect width='180' height='50' rx='15' ry='15' fill='white' stroke='black'>
 
 		</rect>
 		<text x='5' y='14' font-size='16px' font-family='Helvetica'>
+			MetricName:  
+		</text>
+		<text x='100' y='14' font-size='16px' font-family='Helvetica'>
 			{{metric.name}} 
 		</text>
-		<text x= '5' y='40' font-size='16px' font-family='Helvetica'>
+		<text x='5' y='40' font-size='16px' font-family='Helvetica'>
+			MetricValue:  
+		</text>
+		<text x= '100' y='40' font-size='16px' font-family='Helvetica'>
 			{{metric.metricValue | number : 2}}
 		</text>
 	</g>

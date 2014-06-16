@@ -455,7 +455,7 @@ angular.module('cs519Assign3.dashboard', [
 })*/
 .factory('calculateClass', function() {
 	var quantize = d3.scale.quantize()
-		.domain([0, 0.3, 0.6, 0.8, 1.0])
+		.domain([0, 0.6, 1.0, 1.3, 1.6])
 		.range(['healthy', 'well', 'sick', 'coma', 'dead']);
 	return function calculateClass(value) {
 		return quantize(value);

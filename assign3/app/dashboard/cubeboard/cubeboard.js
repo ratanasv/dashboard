@@ -19,7 +19,8 @@ angular.module('cs519Assign3.cubeboard', [
 .controller('CubeboardCtrl', function($scope, initFetchMetric) {
 	var context = cubism.context()
 		.step(1000)
-		.size(900);
+		.size(900)
+		.serverDelay(30000);
 
 	var horizon = context.horizon()
 		.height(60);

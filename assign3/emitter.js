@@ -392,12 +392,21 @@ for (var i=0; i<metrics.length; i++) {
 }
 
 setInterval(function() {
+	
 	for (var i=0; i<metrics.length; i++) {
+		var newValue = value[i] + randomArbitrary(-0.3, 0.3);
+		if (newValue < -2.0) {
+			newValue += 0.3;
+		}
+		if (newValue > 2.0) {
+			newValue -= 3.0;
+		}
+		value[i] = newValue;
 		var payload = {
 			type: metrics[i],
 			time: new Date(Date.now()),
 			data: {
-				value: value[i] += Math.random() - .5
+				value: value[i]
 			}
 		};
 		util.log(JSON.stringify(payload));
